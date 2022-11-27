@@ -1,0 +1,51 @@
+@import 'theme-variables';
+@import 'breakpoints';
+@import 'bootstrap/scss/mixins';
+
+.btn-primary {
+    @include button-variant($primary, $primary, #fff);
+}
+
+.btn-primary {
+    @include button-variant($warning, $warning, #fff);
+}
+
+.btn-primary {
+    @include button-variant($primary, $primary, #fff);
+}
+
+.btn-outline-primary {
+    @include button-outline-variant($primary, #fff, $primary, $primary, #eee);
+}
+
+@each $color, $value in $theme-colors {
+    .badge.bg-#{$color} {
+        color: $value;
+        background-color: lighten($value, 40%) !important;
+    }
+}
+
+.breadcrumb-item a {
+    text-decoration: none;
+}
+
+.page-padding {
+    padding-top: calc(56px + 1rem);
+}
+
+.full-height-page {
+    min-height: calc(100vh - 2rem - 56px);
+}
+
+.btn-primary {
+    color: $white;
+}
+
+.btn-warning {
+    color: $white;
+}
+
+.button-not-rounded-left {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}

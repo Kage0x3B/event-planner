@@ -1,0 +1,23 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel 'src/pages/**/*.html'",
+    "build": "parcel build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "source": "src/pages/index.html",
+  "devDependencies": {
+    "@popperjs/core": "^2.11.6",
+    "@types/luxon": "^3.1.0",
+    "bootstrap": "^5.2.2",
+    "bootstrap-icons": "^1.10.2",
+    "luxon": "^3.1.0",
+    "parcel": "^2.8.0",
+    "prettierrc": "^0.0.0-5"
+  }
+}
