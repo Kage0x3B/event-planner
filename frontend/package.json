@@ -1,20 +1,19 @@
 {
-  "name": "frontend",
-  "version": "1.0.0",
-  "description": "",
-  "scripts": {
-    "generateRouteMetadata": "node tools/generateRouteMetadata.mjs"
-  },
-  "keywords": [],
-  "author": {
-    "name": "Moritz Hein",
-    "email": "mrhn0410@hochschule-trier.de",
-    "url": "https://moritz.website"
-  },
-  "license": "ISC",
-  "devDependencies": {
-    "@types/luxon": "^3.1.0",
-    "luxon": "^3.1.0",
-    "prettierrc": "^0.0.0-5"
-  }
+    "name": "frontend",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "generateRouteMetadata": "node tools/generateRouteMetadata.mjs"
+    },
+    "keywords": [],
+    "author": {
+        "name": "Moritz Hein",
+        "email": "mrhn0410@hochschule-trier.de",
+        "url": "https://moritz.website"
+    },
+    "license": "ISC",
+    "devDependencies": {
+        "@types/luxon": "^3.1.0",
+        "luxon": "^3.1.0"
+    }
 }
