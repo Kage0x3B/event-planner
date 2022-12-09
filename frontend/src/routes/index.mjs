@@ -1,4 +1,4 @@
-import { AbstractRoute } from '../js/AbstractRoute';
+import { AbstractRoute } from '../js/AbstractRoute.mjs';
 
 /** @typedef {{ hello: string; someNumber: number }} IndexData */
 

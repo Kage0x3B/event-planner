@@ -74,7 +74,7 @@ async function generateRoutingMetadata() {
     console.info(`Found ${routeFiles.length} routes`);
 
     const routeEntryStrings = await Promise.all(routeFiles.map(loadRouteMetadata).map(stringifyRouteMetadata));
-    const generatedRouteMetadata = `export const routeMetadata = [\n${routeEntryStrings.join(',\n')}\]`;
+    const generatedRouteMetadata = `export const routeMetadata = [\n${routeEntryStrings.join(',\n')}\];`;
     fs.writeFileSync(GENERATED_FILE_PATH, generatedRouteMetadata);
 }
 

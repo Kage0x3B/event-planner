@@ -1,4 +1,4 @@
-import { Router } from './Router';
+import { Router } from './Router.mjs';
 
 const router = new Router();
 router.initializeRouting().catch(err => {
