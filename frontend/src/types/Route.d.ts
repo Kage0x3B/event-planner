@@ -23,12 +23,15 @@ export interface IRoute {
 
 export interface GeneratorRouteMetadata {
     id: string;
+    path: string;
     routeClassFilePath: string | undefined;
     html: string;
 }
 
 export interface RouteMetadata {
     id: string;
+    pathRegex: RegExp;
+    pageParameterNames: string[];
     routeInstance: IRoute | undefined;
     html: string;
 }

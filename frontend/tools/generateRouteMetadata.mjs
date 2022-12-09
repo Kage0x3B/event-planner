@@ -2,8 +2,9 @@ import fs from 'fs';
 import path from 'path';
 
 const GENERATED_FILES_FOLDER = path.join(process.cwd(), './src/js/generated');
-const GENERATED_FILE_PATH = path.join(GENERATED_FILES_FOLDER, './routeMetadata.js');
-const ROUTE_CLASS_EXPORT_REGEX = /export default class \w+Route extends AbstractRoute/;
+const GENERATED_FILE_PATH = path.join(GENERATED_FILES_FOLDER, './routeMetadata.generated.mjs');
+const ROUTE_CLASS_EXPORT_REGEX = /export\s+default\s+class\s+\w+Route\s+extends\s+AbstractRoute/;
+const ROUTE_PATH_VALIDATION_REGEX = /^(((\/([a-zA-Z0-9_-]+)|\/(:[a-z][a-zA-Z0-9_-]*))*)|\/)$/;
 let routeIdCounter = 1;
 
 function findRouteFiles(folderPath) {
@@ -24,6 +25,18 @@ function findRouteFiles(folderPath) {
     return routeFiles;
 }
 
+function normalizeRoutePath(routePath) {
+    routePath = routePath.substring(0, routePath.length - '.html'.length);
+
+    if (routePath.endsWith('index')) {
+        routePath = routePath.substring(0, routePath.length - '/index'.length);
+    }
+
+    routePath = '/' + routePath;
+
+    return routePath;
+}
+
 /**
  * @param {string} routeFilePath
  * @return {import('../src/types/Route').GeneratorRouteMetadata}
@@ -33,23 +46,29 @@ function loadRouteMetadata(routeFilePath) {
     const routeId = parsedPath.name + routeIdCounter++;
 
     const routeHtml = fs.readFileSync(routeFilePath, 'utf-8');
-    const routeClassFilePath = routeFilePath.substring(0, routeFilePath.length - 5) + '.js';
+    const routeClassFilePath = routeFilePath.substring(0, routeFilePath.length - 5) + '.mjs';
     const relativeRouteClassFilePath = path.relative(GENERATED_FILES_FOLDER, routeClassFilePath);
     const routeClassExists = fs.existsSync(routeClassFilePath);
 
     if (routeClassExists) {
         const routeClassJs = fs.readFileSync(routeClassFilePath, 'utf-8');
 
-        console.log(routeClassJs);
         if (!ROUTE_CLASS_EXPORT_REGEX.test(routeClassJs)) {
             throw new Error(`Invalid route class file "${routeFilePath}", no valid default-exported class extending AbstractRoute found`);
         }
     }
 
+    const routePath = normalizeRoutePath(path.relative(path.join(process.cwd(), 'src/routes'), routeFilePath));
+
+    if (!ROUTE_PATH_VALIDATION_REGEX.test(routePath)) {
+        throw new Error(`Invalid route path "${routePath}", can only contain paths with [a-zA-Z0-9_-] or camel-cased page parameter names, starting with ":"`);
+    }
+
     return {
         id: routeId,
-        html: routeHtml,
-        routeClassFilePath: routeClassExists ? relativeRouteClassFilePath : undefined
+        path: routePath,
+        routeClassFilePath: routeClassExists ? relativeRouteClassFilePath : undefined,
+        html: routeHtml
     };
 }
 
@@ -58,11 +77,53 @@ function loadRouteMetadata(routeFilePath) {
  * @return {string}
  */
 async function stringifyRouteMetadata(routeData) {
+    const { pathRegexString, pageParameterNames } = buildPathRegex(routeData.path);
+
     return `{
-        id: "${routeData.id}",
-        routeInstance: new (await import('${routeData.routeClassFilePath}')).default,
+        id: '${routeData.id}',
+        pathRegex: /${pathRegexString}/,
+        pageParameterNames: [${pageParameterNames.map(p => `'${p}'`).join(', ')}],
+        routeInstance: ${routeData.routeClassFilePath ? `new (await import('${routeData.routeClassFilePath}')).default` : 'undefined'},
         html: \`${routeData.html}\`
     }`;
+}
+
+/**
+ * Build a regex to match the route
+ * @param routePath {string}
+ * @return {{pathRegexString: string; pageParameterNames: string[]}}
+ */
+function buildPathRegex(routePath) {
+    let pathRegex = '^';
+    const pageParameterNames = [];
+
+    for (const pathPart of routePath.split('/')) {
+        if (!pathPart) {
+            continue;
+        }
+
+        pathRegex += '\\/';
+
+        if (pathPart.startsWith(':')) {
+            const parameterName = pathPart.substring(1);
+            pageParameterNames.push(parameterName);
+
+            pathRegex += `([^/]+)`;
+        } else {
+            pathRegex += `${pathPart}`;
+        }
+    }
+
+    if (pathRegex.length === 1) {
+        pathRegex += '\\/';
+    }
+
+    pathRegex += '$';
+
+    return {
+        pathRegexString: pathRegex,
+        pageParameterNames
+    };
 }
 
 async function generateRoutingMetadata() {
@@ -74,7 +135,7 @@ async function generateRoutingMetadata() {
     console.info(`Found ${routeFiles.length} routes`);
 
     const routeEntryStrings = await Promise.all(routeFiles.map(loadRouteMetadata).map(stringifyRouteMetadata));
-    const generatedRouteMetadata = `export const routeMetadata = [\n${routeEntryStrings.join(',\n')}\];`;
+    const generatedRouteMetadata = `/** @return {Promise<(import('../../types/Route').RouteMetadata)[]>} */\nexport async function loadRouteMetadata() {\nreturn [\n${routeEntryStrings.join(',\n')}];\n}`;
     fs.writeFileSync(GENERATED_FILE_PATH, generatedRouteMetadata);
 }
 

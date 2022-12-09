@@ -1,19 +1,25 @@
 {
     "name": "event-planner",
     "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
+    "description": "An event planner webapp for a university web development course",
     "scripts": {
-        "lint": "echo \"Error: no test specified\" && exit 1"
+        "dev": "chokidar 'frontend/src/**/*.mjs' 'frontend/src/**/*.html' 'frontend/src/**/*.less' -c 'pkill -f \"npm run debug\" ; npm run debug' --initial --ignore '/\\.generated\\.mjs$/'",
+        "debug": "npm run -w frontend debug && npm run -w backend dev",
+        "build": "npm run -w frontend build",
+        "start": "npm run -w backend start"
     },
     "keywords": [],
-    "author": "",
-    "license": "ISC",
+    "author": {
+        "name": "Moritz Hein",
+        "email": "mrhn0410@hochschule-trier.de",
+        "url": "https://moritz.website"
+    },
+    "license": "MIT",
     "workspaces": [
         "frontend",
         "backend"
     ],
     "devDependencies": {
-        "prettier": "^1.19.1"
+        "chokidar-cli": "^3.0.0"
     }
 }

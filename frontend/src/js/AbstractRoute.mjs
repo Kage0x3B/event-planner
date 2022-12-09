@@ -8,7 +8,7 @@ export class AbstractRoute {
      * @returns {Promise<unknown>}
      */
     async loadData() {
-
+        return undefined;
     }
 
     /**

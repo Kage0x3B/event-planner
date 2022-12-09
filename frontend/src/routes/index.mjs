@@ -11,6 +11,7 @@ export default class IndexRoute extends AbstractRoute {
      * @returns {Promise<IndexData>}
      */
     async loadData() {
+        console.log('Loading data in index route');
     }
 
     /**
