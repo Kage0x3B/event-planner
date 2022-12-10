@@ -16,6 +16,9 @@ export class AbstractController {
     }
 
     /**
+     * Return the path prefix this controller should be registered at.
+     * Notice that the paths of all api controllers start with `/api`.
+     *
      * @return {string}
      */
     getPath() {

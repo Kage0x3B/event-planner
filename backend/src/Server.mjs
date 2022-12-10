@@ -1,9 +1,9 @@
 import express from 'express';
-import path from 'path';
 import { EventController } from './controller/EventController.mjs';
 import config from './config.mjs';
 import { logger } from './util/logger.mjs';
 import { loggerMiddleware } from './middleware/loggerMiddleware.mjs';
+import { resolveRelativeFilePath } from './util/util.mjs';
 
 export class Server {
     constructor() {
@@ -28,21 +28,14 @@ export class Server {
 
     setupApiRoutes() {
         for (const controller of this.controllers) {
-            console.log('registering on ', controller.getPath());
             this.app.use(`/api${controller.getPath()}`, controller.getRouter());
         }
     }
 
     setupStaticRoutes() {
-        let currentDirectory = import.meta.url;
-
-        if (currentDirectory.startsWith('file://')) {
-            currentDirectory = currentDirectory.substring('file://'.length);
-        }
-
-        this.app.use('/build', express.static(path.join(currentDirectory, '../../../frontend/build'), {}));
+        this.app.use('/build', express.static(resolveRelativeFilePath(import.meta.url, '../../../frontend/build'), {}));
         this.app.get('*', (req, res) => {
-            res.sendFile(path.join(currentDirectory, '../../../frontend/build/index.html'));
+            res.sendFile(resolveRelativeFilePath(import.meta.url, '../../../frontend/build/index.html'));
         });
     }
 }
