@@ -10,7 +10,7 @@ export class EventController extends AbstractController {
     }
 
     /**
-     * Path: /event/:eventId
+     * GET: /event/:eventId
      *
      * @param req {import('express').Request}
      * @param res {import('express').Response}
@@ -25,10 +25,29 @@ export class EventController extends AbstractController {
         res.json(this.eventService.getEvent(eventId));
     }
 
+    /**
+     * POST: /event
+     *
+     * @param req {import('express').Request}
+     * @param res {import('express').Response}
+     */
+    createEvent(req, res) {
+        if (!req.body || !req.body.name?.length || !req.body.tableAmount || !req.body.tableSeatAmount || !req.body.seatingType || !req.body.beginDate) {
+            return res.sendStatus(400);
+        }
+
+        const newEventId = this.eventService.createEvent(req.body);
+
+        res.json({
+            eventId: newEventId
+        });
+    }
+
     getRouter() {
         const router = express.Router();
 
         // This works without .bind(this) because the superclass performs autobinding
+        router.post('/', this.createEvent);
         router.get('/:eventId', this.getEvent);
 
         return router;

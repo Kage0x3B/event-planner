@@ -76,7 +76,7 @@ function loadRouteMetadata(routeFilePath) {
  * @param {import('../src/types/Route').GeneratorRouteMetadata} routeData
  * @return {string}
  */
-async function stringifyRouteMetadata(routeData) {
+function stringifyRouteMetadata(routeData) {
     const { pathRegexString, pageParameterNames } = buildPathRegex(routeData.path);
 
     return `{
@@ -126,7 +126,7 @@ function buildPathRegex(routePath) {
     };
 }
 
-async function generateRoutingMetadata() {
+function generateRoutingMetadata() {
     console.info('Generating routing metadata...');
 
     const routeFolder = path.join(process.cwd(), './src/routes');
@@ -134,8 +134,15 @@ async function generateRoutingMetadata() {
     const routeFiles = findRouteFiles(routeFolder);
     console.info(`Found ${routeFiles.length} routes`);
 
-    const routeEntryStrings = await Promise.all(routeFiles.map(loadRouteMetadata).map(stringifyRouteMetadata));
+    const routeEntryStrings = routeFiles.map(loadRouteMetadata).map(stringifyRouteMetadata);
     const generatedRouteMetadata = `/** @return {Promise<(import('../../types/Route').RouteMetadata)[]>} */\nexport async function loadRouteMetadata() {\nreturn [\n${routeEntryStrings.join(',\n')}];\n}`;
+
+    const generatedJsFolder = fs.existsSync(GENERATED_FILES_FOLDER);
+
+    if (!generatedJsFolder) {
+        fs.mkdirSync(GENERATED_FILES_FOLDER, { recursive: true });
+    }
+
     fs.writeFileSync(GENERATED_FILE_PATH, generatedRouteMetadata);
 }
 

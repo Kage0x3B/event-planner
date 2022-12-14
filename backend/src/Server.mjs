@@ -30,6 +30,10 @@ export class Server {
         for (const controller of this.controllers) {
             this.app.use(`/api${controller.getPath()}`, controller.getRouter());
         }
+
+        this.app.use('/api/*', (req, res) => {
+            res.sendStatus(404);
+        });
     }
 
     setupStaticRoutes() {

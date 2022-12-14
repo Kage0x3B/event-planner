@@ -20,6 +20,7 @@ export class Router {
         document.addEventListener('DOMContentLoaded', async () => {
             await this.updateRouting();
 
+            window.addEventListener('popstate', this.updateRouting.bind(this));
             document.body.addEventListener('click', this.onLinkClicked.bind(this));
         });
     }
@@ -30,19 +31,21 @@ export class Router {
      * @param {MouseEvent} event
      */
     async onLinkClicked(event) {
-        console.log('click event', event.target, event.target.hasOwnProperty('tagName'), event.target.tagName?.toLowerCase());
-        if (event.target && event.target.hasOwnProperty('tagName') && event.target.tagName.toLowerCase() === 'a' && event.target.href) {
+        const isLinkTarget = event.target && typeof event.target.tagName === 'string' && event.target.tagName.toLowerCase() === 'a';
+        console.log('isLinkTarget', isLinkTarget, typeof event.target.href);
+        if (isLinkTarget && typeof event.target.href === 'string') {
+            event.preventDefault();
+
             /** @type {HTMLAnchorElement} */
             const targetLink = event.target;
             const href = targetLink.href;
 
-            console.log('clicked link to', href);
-
-            if (targetLink.relList.contains('external') || href.startsWith('#')) {
+            const isExternalLink = targetLink.relList.contains('external');
+            console.log('isExternalLink', isExternalLink, href);
+            if (isExternalLink || href.startsWith('#')) {
                 return;
             }
 
-            event.preventDefault();
             await this.navigateTo(targetLink.href);
         }
     }
@@ -56,9 +59,9 @@ export class Router {
      */
     async navigateTo(url, replaceState = false) {
         if (replaceState) {
-            history.pushState(null, null, url);
-        } else {
             history.replaceState(null, null, url);
+        } else {
+            history.pushState(null, null, url);
         }
 
         await this.updateRouting();
@@ -75,8 +78,6 @@ export class Router {
         console.log('matchingRoute', matchingRoute);
 
         if (matchingRoute) {
-            const routeInstance = matchingRoute.routeInstance;
-
             if (this.activeRoute) {
                 this.activeRoute.onDestroy();
             }
