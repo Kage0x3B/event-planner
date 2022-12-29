@@ -15,7 +15,7 @@ export class DatabaseManager {
         DatabaseManager.databaseInstance = new Database('./eventdata.sqlite');
         DatabaseManager.databaseInstance.pragma('journal_mode = WAL'); // https://github.com/WiseLibs/better-sqlite3/blob/master/docs/performance.md
 
-        logger.info('Creating database tables in they don\'t exist yet');
+        logger.info('Creating database tables if they don\'t exist yet');
         await DatabaseManager.initTables();
         logger.info('Database initialized!');
     }
