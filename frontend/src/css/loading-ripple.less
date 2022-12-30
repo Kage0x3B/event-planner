@@ -1,0 +1,60 @@
+@border-size: 4px;
+@ripple-color: #49a4d9;
+@size: 60px;
+
+@keyframes loading-ripple {
+  0% {
+    top: round(@size * .5 - @border-size);
+    left: round(@size * .5 - @border-size);
+    width: @border-size * 2;
+    height: @border-size * 2;
+    opacity: 0;
+  }
+
+  4.9% {
+    top: round(@size * .5 - @border-size);
+    left: round(@size * .5 - @border-size);
+    width: @border-size * 2;
+    height: @border-size * 2;
+    opacity: 0;
+  }
+
+  5% {
+    top: round(@size * .5 - @border-size);
+    left: round(@size * .5 - @border-size);
+    width: @border-size * 2;
+    height: @border-size * 2;
+    opacity: 1;
+  }
+
+  100% {
+    top: 0;
+    left: 0;
+    width: round(@size);
+    height: round(@size);
+    opacity: 0;
+  }
+}
+
+.loading-ripple, .loading-ripple div {
+  box-sizing: border-box
+}
+
+.loading-ripple {
+  display: inline-block;
+  position: relative;
+  width: round(@size);
+  height: round(@size);
+}
+
+.loading-ripple div {
+  position: absolute;
+  border: round(@border-size) solid @ripple-color;
+  opacity: 1;
+  border-radius: 50%;
+  animation: loading-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.loading-ripple div:nth-child(2) {
+  animation-delay: -.5s;
+}

@@ -1,16 +1,27 @@
-import { loadRouteMetadata } from './generated/routeMetadata.generated.mjs';
+/* global history, location */
+// semistandard is a stupid tool, just configure eslint properly!
+
+import { loadRouteMetadata } from '../generated/routeMetadata.generated.mjs';
+
+const loadingSpinnerHtml = `
+<div class='flex justify-center mt-40'>
+  <div class='loading-ripple'>
+    <div></div>
+    <div></div>
+  </div>
+</div>`;
 
 export class Router {
   constructor () {
     /** @type {(import('../../types/Route').RouteMetadata)[]} */
     this.routeMetadata = [];
     /** @type {HTMLDivElement} */
-    this.pageContainer = document.getElementById('app');
+    this.pageContainer = document.getElementById('page');
     /** @type {(import('../types/Route').IRoute) | undefined} */
     this.activeRoute = undefined;
 
     if (!this.pageContainer) {
-      throw new Error(`Could not find app container element! Make sure a div with the id 'app' exists in the page.`);
+      throw new Error('Could not find app container element! Make sure a div with the id "page" exists in the page.');
     }
   }
 
@@ -32,7 +43,7 @@ export class Router {
    */
   async onLinkClicked (event) {
     const isLinkTarget = event.target && typeof event.target.tagName === 'string' && event.target.tagName.toLowerCase() === 'a';
-    console.log('isLinkTarget', isLinkTarget, typeof event.target.href);
+
     if (isLinkTarget && typeof event.target.href === 'string') {
       event.preventDefault();
 
@@ -41,7 +52,6 @@ export class Router {
       const href = targetLink.href;
 
       const isExternalLink = targetLink.relList.contains('external');
-      console.log('isExternalLink', isExternalLink, href);
       if (isExternalLink || href.startsWith('#')) {
         return;
       }
@@ -71,11 +81,8 @@ export class Router {
     console.info('Updating routing...');
 
     const currentPath = location.pathname;
-    console.log('currentPath', currentPath);
 
-    console.log(this.routeMetadata);
     const matchingRoute = this.routeMetadata.find(route => route.pathRegex.test(currentPath));
-    console.log('matchingRoute', matchingRoute);
 
     if (matchingRoute) {
       if (this.activeRoute) {
@@ -83,13 +90,22 @@ export class Router {
       }
 
       this.activeRoute = matchingRoute.routeInstance;
-      this.pageContainer.innerHTML = matchingRoute.html;
 
       if (this.activeRoute) {
-        const pageData = this.activeRoute.loadData();
+        let pageData;
+
+        if (this.activeRoute.loadData) {
+          // TODO: Add loading spinner
+          this.pageContainer.innerHTML = loadingSpinnerHtml;
+          pageData = await this.activeRoute.loadData();
+        }
+
+        this.pageContainer.innerHTML = matchingRoute.html;
         this.activeRoute.onMount(this.pageContainer, pageData);
 
         console.info('Mounted route');
+      } else {
+        this.pageContainer.innerHTML = matchingRoute.html;
       }
     } else {
       console.error('404 for path', currentPath);

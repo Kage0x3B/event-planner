@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const GENERATED_FILES_FOLDER = path.join(process.cwd(), './src/js/generated');
+const GENERATED_FILES_FOLDER = path.join(process.cwd(), './src/generated');
 const GENERATED_FILE_PATH = path.join(GENERATED_FILES_FOLDER, './routeMetadata.generated.mjs');
 const ROUTE_CLASS_EXPORT_REGEX = /export\s+default\s+class\s+\w+Route\s+extends\s+AbstractRoute/;
 const ROUTE_PATH_VALIDATION_REGEX = /^(((\/([a-zA-Z0-9_-]+)|\/(:[a-z][a-zA-Z0-9_-]*))*)|\/)$/;
