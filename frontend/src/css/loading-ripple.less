@@ -4,24 +4,24 @@
 
 @keyframes loading-ripple {
   0% {
-    top: round(@size * .5 - @border-size);
-    left: round(@size * .5 - @border-size);
+    left: round(@size * 0.5 - @border-size);
+    top: round(@size * 0.5 - @border-size);
     width: @border-size * 2;
     height: @border-size * 2;
     opacity: 0;
   }
 
   4.9% {
-    top: round(@size * .5 - @border-size);
-    left: round(@size * .5 - @border-size);
+    top: round(@size * 0.5 - @border-size);
+    left: round(@size * 0.5 - @border-size);
     width: @border-size * 2;
     height: @border-size * 2;
     opacity: 0;
   }
 
   5% {
-    top: round(@size * .5 - @border-size);
-    left: round(@size * .5 - @border-size);
+    top: round(@size * 0.5 - @border-size);
+    left: round(@size * 0.5 - @border-size);
     width: @border-size * 2;
     height: @border-size * 2;
     opacity: 1;
@@ -56,5 +56,5 @@
 }
 
 .loading-ripple div:nth-child(2) {
-  animation-delay: -.5s;
+  animation-delay: -0.5s;
 }

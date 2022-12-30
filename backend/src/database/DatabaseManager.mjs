@@ -4,12 +4,6 @@ import fs from 'fs/promises';
 import { resolveRelativeFilePath } from '../util/util.mjs';
 
 export class DatabaseManager {
-  /**
-   * @private
-   * @type {import('better-sqlite3')}
-   */
-  static databaseInstance;
-
   static async initDatabase () {
     logger.info('Initializing database');
     DatabaseManager.databaseInstance = new Database('./eventdata.sqlite');
@@ -32,3 +26,11 @@ export class DatabaseManager {
     return DatabaseManager.databaseInstance;
   }
 }
+
+// TODO: Semistandard is too stupid to parse static properties without initializers
+//  directly in the class declaration so this hack is currently required to put the type info on there
+/**
+ * @private
+ * @type {import('better-sqlite3')}
+ */
+DatabaseManager.databaseInstance = undefined;
