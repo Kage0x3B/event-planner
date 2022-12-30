@@ -13,7 +13,7 @@
         "minify": "npm run minify:css && npm run minify:js",
         "minify:css": "lessc --clean-css build/main.css build/main.css",
         "minify:js": "terser build/bundle.js --compress --mangle --comments=false -o build/bundle.js",
-        "generateRouteMetadata": "node tools/generateRouteMetadata.mjs"
+        "generateRouteMetadata": "node tools/generateRouteMetadata.mjs && (semistandard --fix src/js/generated/*.mjs > /dev/null || true)"
     },
     "keywords": [],
     "author": {
