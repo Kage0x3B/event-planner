@@ -7,19 +7,19 @@ import { AbstractRoute } from '../js/AbstractRoute.mjs';
  * @implements {import('../types/Route').IRoute}
  */
 export default class IndexRoute extends AbstractRoute {
-    /**
-     * @returns {Promise<IndexData>}
-     */
-    async loadData() {
-        console.log('Loading data in index route');
-    }
+  /**
+   * @returns {Promise<IndexData>}
+   */
+  async loadData () {
+    console.log('Loading data in index route');
+  }
 
-    /**
-     * @param pageContainer
-     * @param data {IndexData}
-     * @returns {void}
-     */
-    async onMount(pageContainer, data) {
-        console.info('Hello World!');
-    }
+  /**
+   * @param pageContainer
+   * @param data {IndexData}
+   * @returns {void}
+   */
+  async onMount (pageContainer, data) {
+    console.info('Hello World!');
+  }
 }

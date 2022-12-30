@@ -8,10 +8,10 @@ import path from 'path';
  * @param relativePath {string} the relative path to resolve
  * @return {string} the absolute path
  */
-export function resolveRelativeFilePath(importFilePath, relativePath) {
-    if (importFilePath.startsWith('file://')) {
-        importFilePath = importFilePath.substring('file://'.length);
-    }
+export function resolveRelativeFilePath (importFilePath, relativePath) {
+  if (importFilePath.startsWith('file://')) {
+    importFilePath = importFilePath.substring('file://'.length);
+  }
 
-    return path.join(importFilePath, relativePath);
+  return path.join(importFilePath, relativePath);
 }
