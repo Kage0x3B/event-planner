@@ -3,8 +3,9 @@
     "version": "1.0.0",
     "description": "An event planner webapp for a university web development course",
     "scripts": {
-        "dev": "chokidar 'frontend/src/**/*.mjs' 'frontend/src/**/*.html' 'frontend/src/**/*.less' -c 'pkill -f \"npm run debug\" ; npm run debug' --initial --ignore '/\\.generated\\.mjs$/'",
-        "debug": "npm run -w frontend debug && npm run -w backend dev",
+        "lint": "npm run --workspaces lint",
+        "format": "npm run --workspaces format",
+        "debug": "npm run -w frontend debug && npm run -w backend debug",
         "build": "npm run -w frontend build",
         "start": "npm run -w backend start"
     },

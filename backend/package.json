@@ -4,8 +4,10 @@
     "description": "",
     "main": "src/main.mjs",
     "scripts": {
-        "dev": "nodemon",
-        "start": "node src/main.mjs"
+        "debug": "nodemon",
+        "start": "node src/main.mjs",
+        "lint": "semistandard --verbose src/**/*.mjs | snazzy",
+        "format": "semistandard --verbose --fix src/**/*.mjs | snazzy"
     },
     "type": "module",
     "author": {

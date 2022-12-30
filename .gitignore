@@ -259,4 +259,8 @@ fabric.properties
 generated/
 build/
 
+*.generated.js
+*.generated.mjs
+*.generated.css
+
 *.sqlite*
