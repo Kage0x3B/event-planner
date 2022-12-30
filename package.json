@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "An event planner webapp for a university web development course",
     "scripts": {
+        "clean": "npm run -w frontend clean",
         "lint": "npm run --workspaces lint",
         "format": "npm run --workspaces format",
         "debug": "npm run -w frontend debug && npm run -w backend debug",
@@ -21,6 +22,5 @@
         "backend"
     ],
     "devDependencies": {
-        "chokidar-cli": "^3.0.0"
     }
 }
