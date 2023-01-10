@@ -28,7 +28,7 @@ export class EventController extends AbstractController {
   /**
    * POST: /event
    *
-   * @param req {import('express').Request}
+   * @param req {import('express').Request<unknown, void, import('../types/Event').Event>}
    * @param res {import('express').Response}
    */
   createEvent (req, res) {
