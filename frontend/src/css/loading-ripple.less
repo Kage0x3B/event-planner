@@ -4,57 +4,57 @@
 
 @keyframes loading-ripple {
   0% {
+    height: @border-size * 2;
     left: round(@size * 0.5 - @border-size);
+    opacity: 0%;
     top: round(@size * 0.5 - @border-size);
     width: @border-size * 2;
-    height: @border-size * 2;
-    opacity: 0;
   }
 
   4.9% {
-    top: round(@size * 0.5 - @border-size);
-    left: round(@size * 0.5 - @border-size);
-    width: @border-size * 2;
     height: @border-size * 2;
-    opacity: 0;
+    left: round(@size * 0.5 - @border-size);
+    opacity: 0%;
+    top: round(@size * 0.5 - @border-size);
+    width: @border-size * 2;
   }
 
   5% {
-    top: round(@size * 0.5 - @border-size);
-    left: round(@size * 0.5 - @border-size);
-    width: @border-size * 2;
     height: @border-size * 2;
+    left: round(@size * 0.5 - @border-size);
     opacity: 1;
+    top: round(@size * 0.5 - @border-size);
+    width: @border-size * 2;
   }
 
   100% {
-    top: 0;
-    left: 0;
-    width: round(@size);
     height: round(@size);
-    opacity: 0;
+    left: 0px;
+    opacity: 0%;
+    top: 0px;
+    width: round(@size);
   }
 }
 
 .loading-ripple, .loading-ripple div {
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 
 .loading-ripple {
   display: inline-block;
+  height: round(@size);
   position: relative;
   width: round(@size);
-  height: round(@size);
 }
 
 .loading-ripple div {
-  position: absolute;
-  border: round(@border-size) solid @ripple-color;
-  opacity: 1;
-  border-radius: 50%;
   animation: loading-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  border: round(@border-size) solid @ripple-color;
+  border-radius: 50%;
+  opacity: 1;
+  position: absolute;
 }
 
-.loading-ripple div:nth-child(2) {
+.loading-ripple :nth-child(2) {
   animation-delay: -0.5s;
 }
