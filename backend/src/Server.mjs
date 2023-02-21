@@ -38,6 +38,7 @@ export class Server {
 
   setupStaticRoutes () {
     this.app.use('/build', express.static(resolveRelativeFilePath(import.meta.url, '../../../frontend/build'), {}));
+    this.app.use('/assets', express.static(resolveRelativeFilePath(import.meta.url, '../../../frontend/build/assets'), {}));
     this.app.get('*', (req, res) => {
       res.sendFile(resolveRelativeFilePath(import.meta.url, '../../../frontend/build/index.html'));
     });

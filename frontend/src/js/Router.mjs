@@ -4,7 +4,7 @@
 import { loadRouteMetadata } from '../generated/routeMetadata.generated.mjs';
 
 const loadingSpinnerHtml = `
-<div class='flex justify-center mt-40'>
+<div class='flex justify-center'>
   <div class='loading-ripple'>
     <div></div>
     <div></div>
@@ -51,8 +51,9 @@ export class Router {
       const targetLink = event.target;
       const href = targetLink.href;
 
+      const isSamePage = href === location.href;
       const isExternalLink = targetLink.relList.contains('external');
-      if (isExternalLink || href.startsWith('#')) {
+      if (isSamePage || isExternalLink || href.startsWith('#')) {
         return;
       }
 
@@ -85,9 +86,15 @@ export class Router {
     const matchingRoute = this.routeMetadata.find(route => route.pathRegex.test(currentPath));
 
     if (matchingRoute) {
+      console.info('Navigating to route', matchingRoute);
+
       if (this.activeRoute) {
         this.activeRoute.onDestroy();
       }
+
+      const regexMatches = matchingRoute.pathRegex.exec(currentPath);
+      const params = {};
+      matchingRoute.pageParameterNames.forEach((paramName, i) => params[paramName] = regexMatches[i + 1]);
 
       this.activeRoute = matchingRoute.routeInstance;
 
@@ -95,17 +102,22 @@ export class Router {
         let pageData;
 
         if (this.activeRoute.loadData) {
-          // TODO: Add loading spinner
           this.pageContainer.innerHTML = loadingSpinnerHtml;
-          pageData = await this.activeRoute.loadData();
+          pageData = await this.activeRoute.loadData(params);
         }
 
-        this.pageContainer.innerHTML = matchingRoute.html;
+        this.pageContainer.innerHTML = typeof matchingRoute.html === 'function' ? matchingRoute.html({
+          data: pageData,
+          params
+        }) : matchingRoute.html;
         this.activeRoute.onMount(this.pageContainer, pageData);
 
         console.info('Mounted route');
       } else {
-        this.pageContainer.innerHTML = matchingRoute.html;
+        this.pageContainer.innerHTML = typeof matchingRoute.html === 'function' ? matchingRoute.html({
+          data: {},
+          params
+        }) : matchingRoute.html;
       }
     } else {
       console.error('404 for path', currentPath);

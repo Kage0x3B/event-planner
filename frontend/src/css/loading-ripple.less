@@ -2,6 +2,17 @@
 @ripple-color: #49a4d9;
 @size: 60px;
 
+// Das lesshint package ist seit *4 Jahren* nicht mehr aktualisiert und hat einige Bugs.
+// Dieses Package sollte bitte nicht mehr für Web-Entwicklungs Projekte empfohlen werden!
+// (Und Less insgesamt ist nicht mehr sehr beliebt,
+// eher SCSS oder wirklich modern wäre z.B. TailwindCSS)
+// Ich habe bereits versucht das folgende Problem, dass Prozentangaben in @keyframes die
+// qualifyingElement Regel auslösen, zu fixen und ein PR zu machen, währenddessen sind mir
+// einige weitere große Probleme mit lesshint aufgefallen, wodurch ich nicht mal reproduzierbare
+// Tests für ein PR hätte schreiben können und es zu viel Zeit gekostet hätte.
+// Daher hoffe ich, Sie verzeihen, dass ich einige kaputte Regeln ausgeschaltet habe.
+
+// lesshint-disable qualifyingElement
 @keyframes loading-ripple {
   0% {
     height: @border-size * 2;
@@ -36,6 +47,9 @@
   }
 }
 
+// Funktioniert auch nicht richtig, wenn man das Problem behebt, erscheint ein Meldung
+// der spaceAroundComma Regel, obwohl ein Komma nicht am Ende einer Zeile stehen darf.
+// lesshint-disable-next-line singleLinePerSelector
 .loading-ripple, .loading-ripple div {
   box-sizing: border-box;
 }

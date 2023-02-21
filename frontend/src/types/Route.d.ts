@@ -1,8 +1,10 @@
+import { ClientFunction } from 'ejs';
+
 export interface IRoute {
     /**
      * Load data asynchronously before displaying the page
      */
-    loadData?(): Promise<unknown>;
+    loadData?(params: Record<string, unknown>): Promise<unknown>;
 
     /**
      * Called when a route is navigated to, after the pageContainer containing the pages html was mounted
@@ -33,5 +35,5 @@ export interface RouteMetadata {
     pathRegex: RegExp;
     pageParameterNames: string[];
     routeInstance: IRoute | undefined;
-    html: string;
+    html: string | ClientFunction;
 }

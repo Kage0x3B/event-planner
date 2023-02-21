@@ -1,0 +1,15 @@
+<div class='w-full min-page-height flex justify-center items-center md:w-3/4 lg:w-4/6 xl:w-1/2 mx-auto'>
+    <div class='w-full bg-base-100 rounded-box my-10 p-8 shadow'>
+        <h1 class='text-xl font-bold mb-4'>Alle Veranstaltungen</h1>
+        <ul class='border rounded'>
+            <% for(let i = 0; i < data.length; i++) { %>
+                <% const event = data[i]; %>
+                <li class='<%= i !== data.length - 1 ? 'border-b' : '' %> relative hover:bg-base-200 px-6 py-4 font-bold'>
+                    <a class='after:absolute after:inset-0' href='/event/<%= event.id %>'>
+                        <%= event.name %>
+                    </a>
+                </li>
+            <% } %>
+        </ul>
+    </div>
+</div>

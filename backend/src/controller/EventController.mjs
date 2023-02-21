@@ -1,6 +1,8 @@
 import { AbstractController } from './AbstractController.mjs';
 import express from 'express';
 import { EventService } from '../service/EventService.mjs';
+import { MissingPathParameterError } from '../util/RestError.mjs';
+import { createEventSchema } from '../types/objectValidationSchemas.mjs';
 
 export class EventController extends AbstractController {
   constructor () {
@@ -10,45 +12,51 @@ export class EventController extends AbstractController {
   }
 
   /**
-   * GET: /event/:eventId
+   * GET: /event
    *
-   * @param req {import('express').Request}
-   * @param res {import('express').Response}
+   * @return {import('../types/Event').Event[]}
    */
-  getEvent (req, res) {
-    const eventId = req.params.eventId;
-
-    if (!eventId) {
-      return res.sendStatus(400);
-    }
-
-    res.json(this.eventService.getEvent(eventId));
+  listEvents () {
+    return this.eventService.listEvents();
   }
 
   /**
-   * POST: /event
+   * GET: /event/:eventId
    *
-   * @param req {import('express').Request<unknown, void, import('../types/Event').Event>}
-   * @param res {import('express').Response}
+   * @param {import('express').Request} req
+   * @return {import('../types/Event').Event}
    */
-  createEvent (req, res) {
-    if (!req.body || !req.body.name?.length || !req.body.tableAmount || !req.body.tableSeatAmount || !req.body.seatingType || !req.body.beginDate) {
-      return res.sendStatus(400);
+  getEvent (req) {
+    const eventId = req.params.eventId;
+
+    if (!eventId) {
+      throw new MissingPathParameterError('eventId');
     }
 
+    return this.eventService.getEvent(eventId);
+  }
+
+  /**
+   POST: /event
+   *
+   * @param req {import('express').Request<unknown, void, import('../types/Event').Event>}
+   * @return {{eventId: number}}
+   */
+  createEvent (req) {
     const newEventId = this.eventService.createEvent(req.body);
 
-    res.json({
+    return {
       eventId: newEventId
-    });
+    };
   }
 
   getRouter () {
     const router = express.Router();
 
     // This works without .bind(this) because the superclass performs autobinding
-    router.post('/', this.createEvent);
-    router.get('/:eventId', this.getEvent);
+    router.post('/', this.wrap(this.createEvent, { bodyValidationSchema: createEventSchema }));
+    router.get('/', this.wrap(this.listEvents));
+    router.get('/:eventId', this.wrap(this.getEvent));
 
     return router;
   }

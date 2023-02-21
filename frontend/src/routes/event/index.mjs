@@ -1,5 +1,6 @@
 import { AbstractRoute } from '../../js/AbstractRoute.mjs';
 import eventApi from '../../js/api/eventApi.mjs';
+import { DateTime } from 'luxon';
 
 /** @typedef {{ hello: string; someNumber: number }} PageData */
 
@@ -7,15 +8,11 @@ import eventApi from '../../js/api/eventApi.mjs';
  * @extends {AbstractRoute}
  * @implements {import('../types/Route').IRoute}
  */
-export default class EventInfoRoute extends AbstractRoute {
+export default class EventListRoute extends AbstractRoute {
   /**
-   * @param {{ eventId: number }} params
    * @returns {Promise<PageData>}
    */
-  async loadData ({ eventId }) {
-    console.log('Loading data in /event/:eventId (' + eventId + ') route');
-    return eventApi.getEvent(eventId);
-  }
+  loadData = eventApi.listEvents;
 
   /**
    * @param pageContainer
@@ -24,5 +21,6 @@ export default class EventInfoRoute extends AbstractRoute {
    */
   async onMount (pageContainer, data) {
     console.info('Hello World in event info!');
+    DateTime.DATETIME_MED
   }
 }

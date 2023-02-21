@@ -5,9 +5,10 @@ export class AbstractRoute {
   /**
    * Load data asynchronously before displaying the page
    *
+   * @param {any} params
    * @returns {Promise<unknown>}
    */
-  async loadData () {
+  async loadData (params) {
     return undefined;
   }
 
