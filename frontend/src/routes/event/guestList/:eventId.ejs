@@ -1,0 +1,91 @@
+<%
+const invitationStatusColorMap = {
+    unknown: 'select-secondary',
+    invited: 'select-info',
+    confirmed: 'select-success',
+    declined: 'select-error'
+};
+%>
+
+<div class='w-full min-page-height flex justify-center items-center md:w-3/4 lg:w-4/6 xl:w-1/2 mx-auto'>
+    <div class='w-full bg-base-100 rounded-box my-10 shadow'>
+        <div class='rounded-t-box rounded-b page-header event-info-header px-8 pt-12 h-full justify-end'>
+            <h1 class='text-white drop-shadow-xl text-2xl font-bold mb-4'><%= data.event.name; %></h1>
+            <div class="tabs">
+                <a class="tab tab-lifted text-base-content/90 drop-shadow-lg" href='/event/info/<%= data.event.id %>'>Informationen</a>
+                <a class="tab tab-lifted tab-active" href='/event/guestList/<%= data.event.id %>'>Gästeliste</a>
+                <a class="tab tab-lifted text-base-content/90 drop-shadow-lg"
+                   href='/event/seatingPlan/<%= data.event.id %>'>Sitzplan</a>
+            </div>
+        </div>
+        <div class='p-8'>
+            <ul class='border rounded mb-2'>
+                <% if(!data.guestList.length) { %>
+                    <li class='text-base-content/80 px-6 py-4'>
+                        Noch keine Gäste eingetragen
+                    </li>
+                <% } else { %>
+                    <% for(let i = 0; i < data.guestList.length; i++) { %>
+                        <% const guest = data.guestList[i]; %>
+                        <li class='<%= i !== data.guestList.length - 1 ? 'border-b' : ''; %> flex justify-between items-center'>
+                            <div class='px-4 py-2 flex-1'>
+                                <span class='font-bold'><%= guest.lastName %>, <%= guest.firstName %></span>
+                                <% if(guest.isChild) { %>
+                                    <span class='text-base-content/80'>(Kind)</span>
+                                <% } %>
+                            </div>
+                            <select class="invitation-status-select select select-sm <%= invitationStatusColorMap[guest.invitationStatus] %>"
+                                    data-guest-id='<%= guest.id %>' value='<%= guest.invitationStatus %>'>
+                                <option disabled selected>Wählen Sie den Einladungsstatus</option>
+                                <option value='unknown' <%= guest.invitationStatus === "unknown" ? "selected" : "" %>>
+                                    Unbekannt
+                                </option>
+                                <option value='invited' <%= guest.invitationStatus === "invited" ? "selected" : "" %>>Eingeladen</option>
+                                <option value='confirmed' <%= guest.invitationStatus === "confirmed" ? "selected" : "" %>>Angenommen</option>
+                                <option value='declined' <%= guest.invitationStatus === "declined" ? "selected" : "" %>>Abgelehnt</option>
+                            </select>
+                            <button class='delete-guest-button btn btn-ghost btn-circle ml-4 mr-2 btn-sm'
+                                    data-guest-id='<%= guest.id %>'>
+                                <i class="bi-trash-fill text-error pointer-events-none"></i>
+                            </button>
+                        </li>
+                    <% } %>
+                <% } %>
+            </ul>
+            <div class='flex justify-end <%= new URLSearchParams(location.search).has("add") ? 'hidden' : '' %>'
+                 id='showAddGuestButtonContainer'>
+                <a id='showAddGuestButton' class='btn btn-primary ml-4 mr-2 btn-sm'
+                   href='/event/guestList/<%= data.event.id %>?add'>
+                    <i class="bi-person-plus-fill pointer-events-none mr-2"></i>
+                    Gäste eintragen
+                </a>
+            </div>
+            <div id='addGuestContainer' class='<%= new URLSearchParams(location.search).has("add") ? '' : 'hidden' %>'>
+                <hr class='my-8' />
+                <h2 class='font-bold text-lg mb-4'>Neuen Gast eintragen</h2>
+                <form id='addGuestForm' class='w-full'>
+                    <div class='w-full grid grid-cols-1 lg:grid-cols-2 gap-2'>
+                        <div class='form-control'>
+                            <input type='text' id='firstNameInput' name='firstName' placeholder='Vorname'
+                                   class='input input-bordered w-full' required />
+                        </div>
+                        <div class='form-control'>
+                            <input type='text' id='lastNameInput' name='lastName' placeholder='Nachname'
+                                   class='input input-bordered w-full' required />
+                        </div>
+                        <div class="form-control flex flex-row items-center">
+                            <input type="checkbox" class="checkbox checkbox-primary mr-2" name='isChild'
+                                   id='isChildCheckbox' />
+                            <label class="label cursor-pointer" for='isChildCheckbox'>
+                                <span class="label-text">Kind</span>
+                            </label>
+                        </div>
+                        <div class='flex justify-end'>
+                            <input type='submit' value='Eintragen' class='btn btn-primary' />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

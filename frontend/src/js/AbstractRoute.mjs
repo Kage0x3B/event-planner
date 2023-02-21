@@ -1,7 +1,13 @@
+import autoBind from 'auto-bind';
+
 /**
  * @implements {import('../types/Route').IRoute}
  */
 export class AbstractRoute {
+  constructor () {
+    autoBind(this);
+  }
+
   /**
    * Load data asynchronously before displaying the page
    *
@@ -37,6 +43,6 @@ export class AbstractRoute {
    * @returns {string} the html page title
    */
   getTitle (data) {
-    return 'Veranstaltung24';
+    return '';
   }
 }

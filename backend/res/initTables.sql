@@ -15,17 +15,17 @@ create table if not exists event
 
 create table if not exists guest
 (
-    id               integer not null
+    id               integer                not null
         constraint guest_pk
-            primary key,
-    eventId          integer not null
+            primary key autoincrement,
+    eventId          integer                not null
         constraint guest_event_id_fk
             references event
             on update cascade on delete cascade,
-    firstName        text    not null,
-    lastName         text    not null,
-    isChild          integer not null,
-    invitationStatus text    not null,
+    firstName        text                   not null,
+    lastName         text                   not null,
+    isChild          integer                not null,
+    invitationStatus text default 'unknown' not null,
     constraint invitationStatusEnum
         check (invitationStatus = 'unknown' OR invitationStatus = 'invited' OR invitationStatus = 'confirmed' OR
                invitationStatus = 'declined')

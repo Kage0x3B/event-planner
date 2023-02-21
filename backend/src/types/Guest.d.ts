@@ -7,4 +7,6 @@ export interface Guest {
     invitationStatus: 'unknown' | 'invited' | 'confirmed' | 'declined';
 }
 
-export type CreateGuest = Pick<Guest, 'eventId' | 'firstName' | 'lastName' | 'isChild' | 'invitationStatus'>;
+export type CreateGuest = Pick<Guest, 'eventId' | 'firstName' | 'lastName' | 'isChild'>;
+
+export type UpdateInvitationStatus = Pick<Guest, 'id' | 'invitationStatus'>;

@@ -2,13 +2,23 @@
     <div class='w-full bg-base-100 rounded-box my-10 p-8 shadow'>
         <h1 class='text-xl font-bold mb-4'>Alle Veranstaltungen</h1>
         <ul class='border rounded'>
-            <% for(let i = 0; i < data.length; i++) { %>
-                <% const event = data[i]; %>
-                <li class='<%= i !== data.length - 1 ? 'border-b' : '' %> relative hover:bg-base-200 px-6 py-4 font-bold'>
-                    <a class='after:absolute after:inset-0' href='/event/<%= event.id %>'>
-                        <%= event.name %>
-                    </a>
+            <% if(!data.length) { %>
+                <li class='text-base-content/80 px-6 py-4'>
+                    Noch keine Veranstaltungen angelegt
                 </li>
+            <% } else { %>
+                <% for(let i = 0; i < data.length; i++) { %>
+                    <% const event = data[i]; %>
+                    <li class='<%= i !== data.length - 1 ? 'border-b' : ''; %> hover:bg-base-200 font-bold flex justify-between items-center'>
+                        <a class='px-6 py-4 flex-1' href='/event/info/<%= event.id; %>'>
+                            <%= event.name; %>
+                        </a>
+                        <button class='delete-event-button btn btn-ghost btn-circle ml-4 mr-2 btn-sm'
+                                data-event-id='<%= event.id %>'>
+                            <i class="bi-trash-fill text-error pointer-events-none"></i>
+                        </button>
+                    </li>
+                <% } %>
             <% } %>
         </ul>
     </div>

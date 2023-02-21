@@ -12,6 +12,22 @@ const loadingSpinnerHtml = `
 </div>`;
 
 export class Router {
+  /**
+   * @private
+   */
+  static #routerInstance;
+
+  /**
+   * @return {Router}
+   */
+  static getInstance () {
+    if (!Router.#routerInstance) {
+      Router.#routerInstance = new Router();
+    }
+
+    return Router.#routerInstance;
+  }
+
   constructor () {
     /** @type {(import('../../types/Route').RouteMetadata)[]} */
     this.routeMetadata = [];
@@ -78,9 +94,11 @@ export class Router {
     await this.updateRouting();
   }
 
-  async updateRouting () {
-    console.info('Updating routing...');
+  async reloadPage () {
+    await this.updateRouting();
+  }
 
+  async updateRouting () {
     const currentPath = location.pathname;
 
     const matchingRoute = this.routeMetadata.find(route => route.pathRegex.test(currentPath));
@@ -102,14 +120,19 @@ export class Router {
         let pageData;
 
         if (this.activeRoute.loadData) {
-          this.pageContainer.innerHTML = loadingSpinnerHtml;
+          //this.pageContainer.innerHTML = loadingSpinnerHtml;
           pageData = await this.activeRoute.loadData(params);
         }
+
+        let pageTitle = this.activeRoute.getTitle(pageData);
+
+        pageTitle += (pageTitle.length ? ' | ' : '') + 'EventPlanner24';
 
         this.pageContainer.innerHTML = typeof matchingRoute.html === 'function' ? matchingRoute.html({
           data: pageData,
           params
         }) : matchingRoute.html;
+        document.title = pageTitle;
         this.activeRoute.onMount(this.pageContainer, pageData);
 
         console.info('Mounted route');

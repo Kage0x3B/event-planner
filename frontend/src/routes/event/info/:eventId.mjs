@@ -1,7 +1,7 @@
-import { AbstractRoute } from '../../js/AbstractRoute.mjs';
-import eventApi from '../../js/api/eventApi.mjs';
+import { AbstractRoute } from '../../../js/AbstractRoute.mjs';
+import eventApi from '../../../js/api/eventApi.mjs';
 
-/** @typedef {{ hello: string; someNumber: number }} PageData */
+/** @typedef {import('backend/src/types/Event').Event} PageData */
 
 /**
  * @extends {AbstractRoute}
@@ -19,10 +19,18 @@ export default class EventInfoRoute extends AbstractRoute {
 
   /**
    * @param pageContainer
-   * @param data {PageData}
+   * @param {PageData} data
    * @returns {void}
    */
   async onMount (pageContainer, data) {
     console.info('Hello World in event info!');
+  }
+
+  /**
+   * @param {PageData} data
+   * @return {string}
+   */
+  getTitle (data) {
+    return data.name;
   }
 }

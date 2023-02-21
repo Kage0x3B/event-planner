@@ -1,4 +1,4 @@
-import { get, post } from './apiUtil.mjs';
+import { del, get, post } from './apiUtil.mjs';
 
 /**
  * @return {Promise<import('backend/src/types/Event').Event[]>}
@@ -23,8 +23,17 @@ function createEvent (data) {
   return post('/event', data);
 }
 
+/**
+ @param {number} eventId
+ * @return {Promise<void>}
+ */
+function deleteEvent (eventId) {
+  return del(`/event/${eventId}`);
+}
+
 export default {
   listEvents,
   getEvent,
-  createEvent
+  createEvent,
+  deleteEvent
 };

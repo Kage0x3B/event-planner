@@ -4,11 +4,12 @@ import config from './config.mjs';
 import { logger } from './util/logger.mjs';
 import { loggerMiddleware } from './middleware/loggerMiddleware.mjs';
 import { resolveRelativeFilePath } from './util/util.mjs';
+import { GuestController } from './controller/GuestListController.mjs';
 
 export class Server {
   constructor () {
     this.app = express();
-    this.controllers = [new EventController()];
+    this.controllers = [new EventController(), new GuestController()];
   }
 
   start () {
