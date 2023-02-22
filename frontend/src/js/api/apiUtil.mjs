@@ -1,5 +1,6 @@
 import { API_BASE_URL } from '../config.mjs';
 import { convertToDateTime } from '../util/util.mjs';
+import { NetworkRequestError } from '../util/NetworkRequestError.js';
 
 /**
  *
@@ -7,6 +8,10 @@ import { convertToDateTime } from '../util/util.mjs';
  * @return {Promise<any>}
  */
 async function parseResponse (response) {
+  if (!response.ok) {
+    throw new NetworkRequestError(response);
+  }
+
   // If the response is intentionally empty
   if (response.status === 204) {
     return undefined;
@@ -22,13 +27,15 @@ async function parseResponse (response) {
  * @return {Promise<any>}
  */
 export async function get (path, options = {}) {
-  return fetch(API_BASE_URL + path, {
+  const response = await fetch(API_BASE_URL + path, {
     method: 'GET',
     headers: {
       Accept: 'application/json'
     },
     ...options
-  }).then(parseResponse);
+  });
+
+  return await parseResponse(response);
 }
 
 /**
@@ -38,7 +45,7 @@ export async function get (path, options = {}) {
  * @return {Promise<any>}
  */
 export async function post (path, data, options = {}) {
-  return await fetch(API_BASE_URL + path, {
+  const response = await fetch(API_BASE_URL + path, {
     method: 'POST',
     headers: {
       Accept: 'application/json, */*;q=0.8',
@@ -46,7 +53,9 @@ export async function post (path, data, options = {}) {
     },
     body: JSON.stringify(data),
     ...options
-  }).then(parseResponse);
+  });
+
+  return await parseResponse(response);
 }
 
 /**
@@ -55,11 +64,13 @@ export async function post (path, data, options = {}) {
  * @return {Promise<any>}
  */
 export async function del (path, options = {}) {
-  return await fetch(API_BASE_URL + path, {
+  const response = await fetch(API_BASE_URL + path, {
     method: 'DELETE',
     headers: {
       Accept: 'application/json'
     },
     ...options
-  }).then(parseResponse);
+  });
+
+  return await parseResponse(response);
 }

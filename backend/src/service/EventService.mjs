@@ -1,7 +1,12 @@
 import { DatabaseManager } from '../database/DatabaseManager.mjs';
 import { fixSqlDates, fixSqlDatesArray } from '../util/util.mjs';
+import { SeatingPlanService } from './SeatingPlanService.mjs';
 
 export class EventService {
+  constructor () {
+    this.seatingPlanService = new SeatingPlanService();
+  }
+
   /**
    * Get a single event
    *
@@ -42,13 +47,7 @@ export class EventService {
                                                                ?)`).run(data.name, data.tableAmount, data.tableSeatAmount, data.seatingType, data.beginDate.toMillis());
     const eventId = res.lastInsertRowid;
 
-    const seatInsertStatement = DatabaseManager.getDatabase().prepare(`INSERT INTO seat (eventId, seatNo, tableNo)
-                                                                       VALUES (?, ?, ?)`);
-    for (let tableNo = 1, seatNo = 1; tableNo <= data.tableAmount; tableNo++) {
-      for (let tableSeatNo = 1; tableSeatNo <= data.tableSeatAmount; tableSeatNo++, seatNo++) {
-        seatInsertStatement.run(eventId, seatNo, tableNo);
-      }
-    }
+    this.seatingPlanService.createSeats(eventId, data.tableAmount, data.tableSeatAmount);
 
     return eventId;
   }
