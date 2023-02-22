@@ -64,7 +64,7 @@ create table if not exists seat_assignment
 /* === TEST DATA === */
 
 INSERT INTO event (id, name, tableAmount, tableSeatAmount, seatingType, beginDate)
-VALUES (1, 'Irgendeine Hochzeit', 4, 4, 'oneSided', CURRENT_TIMESTAMP + 1000 * 60 * 60 * 24)
+VALUES (1, 'Irgendeine Hochzeit (Beispiel-Daten)', 4, 4, 'oneSided', CURRENT_TIMESTAMP + 1000 * 60 * 60 * 24)
 ON CONFLICT DO NOTHING;
 
 INSERT INTO guest (id, eventId, firstName, lastName, isChild, invitationStatus)
