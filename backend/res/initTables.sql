@@ -79,6 +79,10 @@ INSERT INTO guest (id, eventId, firstName, lastName, isChild, invitationStatus)
 VALUES (5, 1, 'Alex', 'Tester', 1, 'confirmed') ON CONFLICT DO NOTHING;
 INSERT INTO guest (id, eventId, firstName, lastName, isChild, invitationStatus)
 VALUES (6, 1, 'Maria', 'Tester', 0, 'unknown') ON CONFLICT DO NOTHING;
+INSERT INTO guest (id, eventId, firstName, lastName, isChild, invitationStatus)
+VALUES (7, 1, 'Tina', 'Bagel', 0, 'confirmed') ON CONFLICT DO NOTHING;
+INSERT INTO guest (id, eventId, firstName, lastName, isChild, invitationStatus)
+VALUES (8, 1, 'Jonas', 'Tiger', 0, 'unknown') ON CONFLICT DO NOTHING;
 
 INSERT INTO seat (eventId, seatNo, tableNo)
 VALUES (1, 1, 1)
