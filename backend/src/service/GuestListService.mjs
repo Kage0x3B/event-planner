@@ -1,6 +1,11 @@
 import { DatabaseManager } from '../database/DatabaseManager.mjs';
+import { SeatingPlanService } from './SeatingPlanService.mjs';
 
 export class GuestListService {
+  constructor () {
+    this.seatingPlanService = new SeatingPlanService();
+  }
+
   /**
    * List all guests of an event
    *
@@ -31,6 +36,10 @@ export class GuestListService {
     DatabaseManager.getDatabase().prepare(`UPDATE guest
                                            SET invitationStatus = ?
                                            WHERE id = ?`).run(data.invitationStatus, data.id);
+
+    if (data.invitationStatus === 'declined') {
+      this.seatingPlanService.deleteSeatAssignmentForGuest(data.id);
+    }
   }
 
   /**

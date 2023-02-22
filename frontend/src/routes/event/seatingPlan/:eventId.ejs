@@ -1,30 +1,92 @@
-<div class='w-full min-page-height flex justify-center items-center md:w-3/4 lg:w-4/6 xl:w-1/2 mx-auto'>
-    <div class='w-full bg-base-100 rounded-box my-10 shadow'>
+<%
+const { event, guestList, seatingPlan } = data;
+
+const guestsWithoutSeat = guestList.filter(g => g.invitationStatus !== 'declined' && !seatingPlan.some(s => s && s.guest?.id === g.id));
+%>
+
+<div class='w-11/12 xl:w-5/6 mx-auto min-page-height flex justify-center items-center flex-wrap'>
+    <div class='w-full xl:w-1/2 bg-base-100 rounded-box mt-10 mb-4 xl:mb-10 shadow'>
         <div class='rounded-t-box rounded-b page-header event-info-header px-8 pt-12 h-full justify-end'>
-            <h1 class='text-white drop-shadow-xl text-2xl font-bold mb-4'><%= data.name ;%></h1>
+            <h1 class='text-white drop-shadow-xl text-2xl font-bold mb-4'><%= event.name; %></h1>
             <div class="tabs">
-                <a class="tab tab-lifted text-base-content/90 drop-shadow-lg"  href='/event/info/<%= data.id %>'>Informationen</a>
-                <a class="tab tab-lifted text-base-content/90 drop-shadow-lg" href='/event/guestList/<%= data.id %>'>Gästeliste</a>
-                <a class="tab tab-lifted tab-active" href='/event/seatingPlan/<%= data.id %>'>Sitzplan</a>
+                <a class="tab tab-lifted text-base-content/90 drop-shadow-lg" href='/event/info/<%= event.id %>'>Informationen</a>
+                <a class="tab tab-lifted text-base-content/90 drop-shadow-lg"
+                   href='/event/guestList/<%= event.id %>'>Gästeliste</a>
+                <a class="tab tab-lifted tab-active" href='/event/seatingPlan/<%= event.id %>'>Sitzplan</a>
             </div>
         </div>
-        <div class='p-8'>
-            <div class='flex'>
-                <span class='text-base-content/80 mr-4'>Anzahl Tische: </span>
-                <span><%= data.tableAmount ;%></span>
-            </div>
-            <div class='flex'>
-                <span class='text-base-content/80 mr-4'>Anzahl Sitze pro Tisch: </span>
-                <span><%= data.tableSeatAmount ;%></span>
-            </div>
-            <div class='flex'>
-                <span class='text-base-content/80 mr-4'>Beidseitige Bestuhlung: </span>
-                <span><%= data.seatingType === 'oneSided' ? 'Nein' : 'Ja' ;%></span>
-            </div>
-            <div class='flex'>
-                <span class='text-base-content/80 mr-4'>Beginn: </span>
-                <span><%= data.beginDate.toLocaleString(DateTime.DATETIME_MED) ;%></span>
-            </div>
+        <div class='p-8 grid gap-4 grid-cols-1'>
+            <% for (let tableNo = 1, seatNo = 1; tableNo <= event.tableAmount; tableNo++) { %>
+                <% let tableSeatNo = 1; %>
+                <div class='rounded bg-accent/20 p-2 flex flex-col items-center gap-2'>
+                    <% if(event.seatingType === "oneSided") { %>
+                        <span class='font-bold'>Tisch <%= tableNo %></span>
+                    <% } %>
+                    <div class='w-full flex justify-around'>
+                        <% for (tableSeatNo = 1; tableSeatNo <= (event.seatingType === "bothSides" ? Math.floor(event.tableSeatAmount / 2) : event.tableSeatAmount); tableSeatNo++, seatNo++) { %>
+                            <% const guest = seatingPlan[seatNo].guest; %>
+                            <div class='<%= guest ? 'bg-base-100' : 'bg-base-100/70' %> shadow-sm rounded px-2 py-1 flex flex-col items-center border border-transparent seat-drag-target <%= guest ? 'guest-draggable' : '' %>'
+                                 data-seat-no='<%= seatNo %>' <%- guest ? `draggable='true' data-guest-id='${guest.id}' data-guest-name='${guest.lastName}, ${guest.firstName}'` : '' %>>
+                                <span class='text-sm pointer-events-none'>Sitzplatz <%= tableSeatNo %></span>
+                                <% if(guest) { %>
+                                    <span class='font-bold pointer-events-none'><%= guest.lastName %>, <%= guest.firstName %></span>
+                                    <% if(guest.isChild) { %>
+                                        <span class='text-base-content/80 pointer-events-none'>(Kind)</span>
+                                    <% } %>
+                                <% } else { %>
+                                    <span class='text-base-content/80 pointer-events-none'>(leer)</span>
+                                <% } %>
+                            </div>
+                        <% } %>
+                    </div>
+                    <% if(event.seatingType === "bothSides") { %>
+                        <span class='font-bold'>Tisch <%= tableNo %></span>
+                        <div class='w-full flex justify-around'>
+                            <% for (; tableSeatNo <= event.tableSeatAmount; tableSeatNo++, seatNo++) { %>
+                                <% const guest = seatingPlan[seatNo].guest; %>
+                                <div class='<%= guest ? 'bg-base-100' : 'bg-base-100/70' %> shadow-sm rounded px-2 py-1 flex flex-col items-center border border-transparent seat-drag-target <%= guest ? 'guest-draggable' : '' %>'
+                                     data-seat-no='<%= seatNo %>' <%- guest ? `draggable='true' data-guest-id='${guest.id}' data-guest-name='${guest.lastName}, ${guest.firstName}'` : '' %>>
+                                    <span class='text-sm pointer-events-none'>Sitzplatz <%= tableSeatNo %></span>
+                                    <% if(guest) { %>
+                                        <span class='font-bold pointer-events-none'><%= guest.lastName %>, <%= guest.firstName %></span>
+                                        <% if(guest.isChild) { %>
+                                            <span class='text-base-content/80 pointer-events-none'>(Kind)</span>
+                                        <% } %>
+                                    <% } else { %>
+                                        <span class='text-base-content/80 pointer-events-none'>(leer)</span>
+                                    <% } %>
+                                </div>
+                            <% } %>
+                        </div>
+                    <% } %>
+                </div>
+            <% } %>
+        </div>
+    </div>
+    <div class='w-full xl:w-1/5 xl:ml-6 bg-base-100 rounded-box xl:mt-10 mb-10 shadow'>
+        <div class='p-4'>
+            <h2 class='font-bold mb-2'>Gäste ohne zugewiesenen Sitzplatz</h2>
+
+            <% if(guestsWithoutSeat.length) { %>
+                <ul class='border rounded mb-2'>
+                    <% for(let i = 0; i < guestsWithoutSeat.length; i++) { %>
+                        <% const guest = guestsWithoutSeat[i]; %>
+                        <li class='<%= i !== guestsWithoutSeat.length - 1 ? 'border-b' : ''; %> flex justify-between items-center guest-draggable'
+                            draggable='true' data-guest-id='<%= guest.id %>'
+                            data-guest-name='<%= guest.lastName %>, <%= guest.firstName %>'>
+                            <div class='px-4 py-2 flex-1 pointer-events-none'>
+                                <span class='font-bold'><%= guest.lastName %>, <%= guest.firstName %></span>
+                                <% if(guest.isChild) { %>
+                                    <span class='text-base-content/80'>(Kind)</span>
+                                <% } %>
+                            </div>
+                        </li>
+                    <% } %>
+                </ul>
+                <span class='text-base-content/80 text-sm'>Weisen Sie den Gästen Sitzplätze zu, indem Sie den Namen direkt auf den Sitzplatz ziehen</span>
+            <% } else { %>
+                <span class='text-base-content/80'>Allen Gästen wurden Sitze zugewiesen</span>
+            <% } %>
         </div>
     </div>
 </div>

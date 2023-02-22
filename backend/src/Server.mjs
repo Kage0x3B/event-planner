@@ -5,11 +5,12 @@ import { logger } from './util/logger.mjs';
 import { loggerMiddleware } from './middleware/loggerMiddleware.mjs';
 import { resolveRelativeFilePath } from './util/util.mjs';
 import { GuestController } from './controller/GuestListController.mjs';
+import { SeatingPlanController } from './controller/SeatingPlanController.mjs';
 
 export class Server {
   constructor () {
     this.app = express();
-    this.controllers = [new EventController(), new GuestController()];
+    this.controllers = [new EventController(), new GuestController(), new SeatingPlanController()];
   }
 
   start () {

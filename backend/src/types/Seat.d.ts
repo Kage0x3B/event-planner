@@ -6,9 +6,11 @@ export interface Seat {
     tableNo: number;
 }
 
-export interface SeatWithGuest extends Partial<Pick<Guest, 'id' | 'firstName' | 'lastName' | 'isChild'>> {
-    eventId: number;
-    seatNo: number;
-    tableNo: number;
-    guestId: number | undefined;
+export interface SeatWithGuest extends Seat {
+    guest?: Guest;
 }
+
+/**
+ * A seat with guest information indexed with the seatNo
+ */
+export type SeatingPlan = SeatWithGuest[];

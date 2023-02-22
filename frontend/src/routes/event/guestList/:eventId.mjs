@@ -64,12 +64,12 @@ export default class EventGuestListRoute extends AbstractRoute {
         eventId: data.event.id,
         isChild: formData.isChild === 'on'
       });
-      console.log("Done creating, navigating...");
+      console.log('Done creating, navigating...');
 
       await Router.getInstance().navigateTo(`/event/guestList/${data.event.id}?add`, true);
     } catch (err) {
       console.error(err);
-      console.log("Alerting..");
+      console.log('Alerting..');
       alert('Der Gast konnte nicht hinzugefügt werden, bitte überprüfen Sie Ihre Eingaben.');
     }
   }
@@ -122,6 +122,6 @@ export default class EventGuestListRoute extends AbstractRoute {
    * @return {string}
    */
   getTitle (data) {
-    return data.event.name;
+    return 'Gästeliste | ' + data.event.name;
   }
 }

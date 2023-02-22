@@ -19,3 +19,9 @@ export const updateInvitationStatusSchema = yup.object({
   id: yup.number().positive().required(),
   invitationStatus: yup.string().oneOf(['unknown', 'invited', 'confirmed', 'declined']).required()
 });
+
+export const seatAssignmentSchema = yup.object({
+  eventId: yup.number().positive().required(),
+  seatNo: yup.number().positive().required(),
+  guestId: yup.number().positive().required()
+});

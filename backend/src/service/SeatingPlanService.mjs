@@ -27,6 +27,8 @@ export class SeatingPlanService {
    * @return {void}
    */
   assignSeat (data) {
+    this.deleteSeatAssignmentForGuest(data.guestId);
+
     /**
      * @type {import('../types/SeatAssignment').SeatAssignment}
      */
@@ -47,6 +49,49 @@ export class SeatingPlanService {
   }
 
   /**
+   * Get a single event
+   *
+   * @param {number} eventId the event id
+   * @return {import('../types/Seat').SeatingPlan}
+   */
+  getSeatingPlan (eventId) {
+    /** @type {(import('../types/Seat').Seat & import('../types/Guest').Guest & { guestId?: number })[]} */
+    const rawSeatingPlan = DatabaseManager.getDatabase().prepare(`SELECT s.eventId,
+                                                                         s.seatNo,
+                                                                         s.tableNo,
+                                                                         sa.guestId,
+                                                                         g.firstName,
+                                                                         g.lastName,
+                                                                         g.isChild,
+                                                                         g.invitationStatus
+                                                                  FROM seat s
+                                                                           LEFT JOIN seat_assignment sa on s.eventId = sa.eventId and s.seatNo = sa.seatNo
+                                                                           LEFT JOIN guest g on sa.guestId = g.id
+                                                                  WHERE s.eventId = ?;
+    `).all(eventId);
+
+    /** @type {SeatingPlan} */
+    const seatingPlanArray = [];
+
+    for (const entry of rawSeatingPlan) {
+      seatingPlanArray[entry.seatNo] = {
+        eventId: entry.eventId,
+        seatNo: entry.seatNo,
+        tableNo: entry.tableNo,
+        guest: (entry.guestId) ? {
+          id: entry.guestId,
+          firstName: entry.firstName,
+          lastName: entry.lastName,
+          isChild: Boolean(entry.isChild),
+          invitationStatus: entry.invitationStatus
+        } : null
+      };
+    }
+
+    return seatingPlanArray;
+  }
+
+  /**
    * Delete a seat assignment.
    *
    * @param {number} eventId
@@ -58,5 +103,17 @@ export class SeatingPlanService {
                                            FROM seat_assignment
                                            WHERE eventId = ?
                                              AND seatNo = ?`).run(eventId, seatNo);
+  }
+
+  /**
+   * Delete a seat assignment for a guest id.
+   *
+   * @param {number} guestId
+   * @return {void}
+   */
+  deleteSeatAssignmentForGuest (guestId) {
+    DatabaseManager.getDatabase().prepare(`DELETE
+                                           FROM seat_assignment
+                                           WHERE guestId = ?`).run(guestId);
   }
 }

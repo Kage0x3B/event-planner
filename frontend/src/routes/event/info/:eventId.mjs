@@ -23,7 +23,6 @@ export default class EventInfoRoute extends AbstractRoute {
    * @returns {void}
    */
   async onMount (pageContainer, data) {
-    console.info('Hello World in event info!');
   }
 
   /**
