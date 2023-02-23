@@ -75,7 +75,7 @@ async function loadRouteMetadata (routeFilePath) {
       client: true,
       async: false,
       strict: true,
-      destructuredLocals: ['data', 'params']
+      destructuredLocals: ['data', 'params', 'query']
     }) : '`' + routeContent + '`'
   };
 }
