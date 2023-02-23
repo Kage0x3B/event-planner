@@ -14,10 +14,24 @@ export class EventController extends AbstractController {
   /**
    * GET: /event
    *
-   * @return {import('../types/Event').Event[]}
+   * @param {import('express').Request<{}, any, any, {start: number | undefined, amount: number | undefined}>} req
+   * @return {import('../types/PaginatedResponse').PaginatedResponse<import('../types/Event').Event>}
    */
-  listEvents () {
-    return this.eventService.listEvents();
+  listEvents (req) {
+    const start = req.query.start ? Number(req.query.start) : 0;
+    const amount = req.query.amount ? Number(req.query.amount) : 10;
+    const paginatedEventList = this.eventService.listEvents({
+      start,
+      amount
+    });
+    const totalAmount = this.eventService.countEvents();
+
+    return {
+      start,
+      amount,
+      totalAmount,
+      data: paginatedEventList
+    };
   }
 
   /**

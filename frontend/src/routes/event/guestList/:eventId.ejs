@@ -7,7 +7,7 @@ const invitationStatusColorMap = {
 };
 %>
 
-<div class='w-full min-page-height flex justify-center items-center md:w-3/4 lg:w-4/6 xl:w-1/2 mx-auto'>
+<div class='w-full min-page-height flex justify-center items-center md:w-3/4 lg:w-4/6 xl:w-1/2 mx-auto px-4 xl:px-0'>
     <div class='w-full bg-base-100 rounded-box my-10 shadow'>
         <div class='rounded-t-box rounded-b page-header event-info-header px-8 pt-12 h-full justify-end'>
             <h1 class='text-white drop-shadow-xl text-2xl font-bold mb-4'><%= data.event.name; %></h1>
@@ -40,9 +40,15 @@ const invitationStatusColorMap = {
                                 <option value='unknown' <%= guest.invitationStatus === "unknown" ? "selected" : "" %>>
                                     Unbekannt
                                 </option>
-                                <option value='invited' <%= guest.invitationStatus === "invited" ? "selected" : "" %>>Eingeladen</option>
-                                <option value='confirmed' <%= guest.invitationStatus === "confirmed" ? "selected" : "" %>>Angenommen</option>
-                                <option value='declined' <%= guest.invitationStatus === "declined" ? "selected" : "" %>>Abgelehnt</option>
+                                <option value='invited' <%= guest.invitationStatus === "invited" ? "selected" : "" %>>
+                                    Eingeladen
+                                </option>
+                                <option value='confirmed' <%= guest.invitationStatus === "confirmed" ? "selected" : "" %>>
+                                    Angenommen
+                                </option>
+                                <option value='declined' <%= guest.invitationStatus === "declined" ? "selected" : "" %>>
+                                    Abgelehnt
+                                </option>
                             </select>
                             <button class='delete-guest-button btn btn-ghost btn-circle ml-4 mr-2 btn-sm'
                                     data-guest-id='<%= guest.id %>'>
@@ -52,7 +58,7 @@ const invitationStatusColorMap = {
                     <% } %>
                 <% } %>
             </ul>
-            <div class='flex justify-end <%= new URLSearchParams(location.search).has("add") ? 'hidden' : '' %>'
+            <div class='flex justify-end <%= query.has("add") ? 'hidden' : '' %>'
                  id='showAddGuestButtonContainer'>
                 <a id='showAddGuestButton' class='btn btn-primary ml-4 mr-2 btn-sm'
                    href='/event/guestList/<%= data.event.id %>?add'>
@@ -60,7 +66,7 @@ const invitationStatusColorMap = {
                     Gäste eintragen
                 </a>
             </div>
-            <div id='addGuestContainer' class='<%= new URLSearchParams(location.search).has("add") ? '' : 'hidden' %>'>
+            <div id='addGuestContainer' class='<%= query.has("add") ? '' : 'hidden' %>'>
                 <hr class='my-8' />
                 <h2 class='font-bold text-lg mb-4'>Neuen Gast eintragen</h2>
                 <form id='addGuestForm' class='w-full'>

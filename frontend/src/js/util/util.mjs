@@ -34,3 +34,20 @@ export function convertToDateTime (obj) {
 
   return obj;
 }
+
+/**
+ * Create a function which debounces calls to the input function by a certain timeout
+ *
+ * @template {ArgsType}
+ * @param {(...args: ArgsType) => void} func
+ * @param {number} timeout
+ * @return {(...args: ArgsType) => void}
+ */
+export function debounce (func, timeout) {
+  let timer;
+
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => func(...args), timeout);
+  };
+}

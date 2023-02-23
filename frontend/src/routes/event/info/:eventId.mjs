@@ -12,9 +12,8 @@ export default class EventInfoRoute extends AbstractRoute {
    * @param {{ eventId: number }} params
    * @returns {Promise<PageData>}
    */
-  async loadData ({ eventId }) {
-    console.log('Loading data in /event/:eventId (' + eventId + ') route');
-    return eventApi.getEvent(eventId);
+  async loadData ({ params }) {
+    return eventApi.getEvent(params.eventId);
   }
 
   /**
@@ -22,14 +21,14 @@ export default class EventInfoRoute extends AbstractRoute {
    * @param {PageData} data
    * @returns {void}
    */
-  async onMount (pageContainer, data) {
+  async onMount (pageContainer, data, {}) {
   }
 
   /**
    * @param {PageData} data
    * @return {string}
    */
-  getTitle (data) {
+  getTitle (data, {}) {
     return data.name;
   }
 }

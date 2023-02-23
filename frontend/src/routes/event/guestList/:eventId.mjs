@@ -14,8 +14,8 @@ export default class EventGuestListRoute extends AbstractRoute {
    * @param {{ eventId: number }} params
    * @returns {Promise<PageData>}
    */
-  async loadData ({ eventId }) {
-    const [event, guestList] = await Promise.all([eventApi.getEvent(eventId), guestApi.listGuests(eventId)]);
+  async loadData ({ params }) {
+    const [event, guestList] = await Promise.all([eventApi.getEvent(params.eventId), guestApi.listGuests(params.eventId)]);
 
     return {
       event,
@@ -28,7 +28,7 @@ export default class EventGuestListRoute extends AbstractRoute {
    * @param {PageData} data
    * @returns {void}
    */
-  async onMount (pageContainer, data) {
+  async onMount (pageContainer, data, {}) {
     this.addGuestForm = document.getElementById('addGuestForm');
     this.addGuestForm.addEventListener('submit', (e) => this.onSubmit(e, data));
 
@@ -121,7 +121,7 @@ export default class EventGuestListRoute extends AbstractRoute {
    * @param {PageData} data
    * @return {string}
    */
-  getTitle (data) {
+  getTitle (data, {}) {
     return 'Gästeliste | ' + data.event.name;
   }
 }

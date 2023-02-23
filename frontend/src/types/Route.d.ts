@@ -4,12 +4,15 @@ export interface IRoute {
     /**
      * Load data asynchronously before displaying the page
      */
-    loadData?(params: Record<string, unknown>): Promise<unknown>;
+    loadData?({ params, query }: { params: Record<string, unknown>; query: URLSearchParams }): Promise<unknown>;
 
     /**
      * Called when a route is navigated to, after the pageContainer containing the pages html was mounted
      */
-    onMount?(pageContainer: HTMLDivElement, data?: unknown): void;
+    onMount?(pageContainer: HTMLDivElement, data: unknown | undefined, {
+        params,
+        query
+    }: { params: Record<string, unknown>; query: URLSearchParams }): void;
 
     /**
      * Called when a route is being navigated away from, after the pageContainer was removed from the document
@@ -17,10 +20,12 @@ export interface IRoute {
     onDestroy(): void;
 
     /**
-     * @param {unknown} data
      * @returns the html page title
      */
-    getTitle(data?: unknown): string;
+    getTitle(data: unknown | undefined, {
+        params,
+        query
+    }: { params: Record<string, unknown>; query: URLSearchParams }): string;
 }
 
 export interface GeneratorRouteMetadata {

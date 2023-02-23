@@ -1,16 +1,24 @@
-<div class='w-full min-page-height flex justify-center items-center md:w-3/4 lg:w-4/6 xl:w-1/2 mx-auto'>
-    <div class='w-full bg-base-100 rounded-box my-10 p-8 shadow'>
-        <h1 class='text-xl font-bold mb-4'>Alle Veranstaltungen</h1>
+<%
+const { start, amount, totalAmount, data: eventList } = data;
+
+const currentPage = Math.floor(start / amount);
+const totalPageAmount = Math.ceil(totalAmount / amount);
+%>
+
+<div class='w-full min-page-height flex justify-center items-center md:w-3/4 lg:w-4/6 xl:w-1/2 mx-auto px-4 xl:px-0'>
+    <div class='w-full bg-base-100 rounded-box my-[40px] px-8 py-[32px] shadow'>
+        <h1 class='text-xl font-bold mb-[16px]'>Alle Veranstaltungen</h1>
         <ul class='border rounded'>
-            <% if(!data.length) { %>
+            <% if(!eventList.length) { %>
                 <li class='text-base-content/80 px-6 py-4'>
                     Noch keine Veranstaltungen angelegt
                 </li>
             <% } else { %>
-                <% for(let i = 0; i < data.length; i++) { %>
-                    <% const event = data[i]; %>
-                    <li class='<%= i !== data.length - 1 ? 'border-b' : ''; %> hover:bg-base-200 font-bold flex justify-between items-center'>
-                        <a class='px-6 py-4 flex-1' href='/event/info/<%= event.id; %>'>
+                <% for(let i = 0; i < eventList.length; i++) { %>
+                    <% const event = eventList[i]; %>
+                    <li class='<%= i !== eventList.length - 1 ? 'border-b' : ''; %> overflow-hidden hover:bg-base-200 font-bold flex justify-between items-center h-[56px]'>
+                        <a class='px-6 flex-1 whitespace-nowrap text-ellipsis overflow-hidden'
+                           href='/event/info/<%= event.id; %>'>
                             <%= event.name; %>
                         </a>
                         <button class='delete-event-button btn btn-ghost btn-circle ml-4 mr-2 btn-sm'
@@ -21,5 +29,19 @@
                 <% } %>
             <% } %>
         </ul>
+        <div class='flex justify-end mt-[16px]'>
+            <div class="btn-group">
+                <a class="btn btn-sm btn-primary"
+                   href='/event?page=<%= Math.max(1, currentPage) %>' <%- currentPage <= 0 ? 'disabled' : '' %>>
+                    <i class="bi-caret-left-fill pointer-events-none"></i>
+                </a>
+                <button class="btn btn-sm btn-primary pointer-events-none font-normal">Seite <%= currentPage + 1 %>
+                    /<%= totalPageAmount %></button>
+                <a class="btn btn-sm btn-primary"
+                   href='/event?page=<%= Math.min(currentPage + 2, totalPageAmount) %>' <%- currentPage >= (totalPageAmount - 1) ? 'disabled' : '' %>>
+                    <i class="bi-caret-right-fill pointer-events-none"></i>
+                </a>
+            </div>
+        </div>
     </div>
 </div>

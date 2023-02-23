@@ -67,22 +67,70 @@ INSERT INTO event (id, name, tableAmount, tableSeatAmount, seatingType, beginDat
 VALUES (1, 'Irgendeine Hochzeit (Beispiel-Daten)', 4, 4, 'oneSided', 1689858000000)
 ON CONFLICT DO NOTHING;
 
+INSERT INTO event (id, name, tableAmount, tableSeatAmount, seatingType, beginDate)
+VALUES (2, 'Noch ein Event (keine Daten, nur um die Liste zu füllen)', 1, 1, 'oneSided', 1782858000000)
+ON CONFLICT DO NOTHING;
+INSERT INTO event (id, name, tableAmount, tableSeatAmount, seatingType, beginDate)
+VALUES (3, 'Und noch eins', 1, 1, 'oneSided', 1782858000000)
+ON CONFLICT DO NOTHING;
+INSERT INTO event (id, name, tableAmount, tableSeatAmount, seatingType, beginDate)
+VALUES (4, 'Und ein drittes', 1, 1, 'oneSided', 1782858000000)
+ON CONFLICT DO NOTHING;
+INSERT INTO event (id, name, tableAmount, tableSeatAmount, seatingType, beginDate)
+VALUES (5, 'Und ein viertes ohne Daten', 1, 1, 'oneSided', 1782858000000)
+ON CONFLICT DO NOTHING;
+INSERT INTO event (id, name, tableAmount, tableSeatAmount, seatingType, beginDate)
+VALUES (6, 'Und ein fünftes', 1, 1, 'oneSided', 1782858000000)
+ON CONFLICT DO NOTHING;
+INSERT INTO event (id, name, tableAmount, tableSeatAmount, seatingType, beginDate)
+VALUES (7, 'Und ein sechstes', 1, 1, 'oneSided', 1782858000000)
+ON CONFLICT DO NOTHING;
+INSERT INTO event (id, name, tableAmount, tableSeatAmount, seatingType, beginDate)
+VALUES (8, 'Und ein siebtes', 1, 1, 'oneSided', 1782858000000)
+ON CONFLICT DO NOTHING;
+INSERT INTO event (id, name, tableAmount, tableSeatAmount, seatingType, beginDate)
+VALUES (9, 'Und ein achtes', 1, 1, 'oneSided', 1782858000000)
+ON CONFLICT DO NOTHING;
+INSERT INTO event (id, name, tableAmount, tableSeatAmount, seatingType, beginDate)
+VALUES (10, 'Und ein neuntes', 1, 1, 'oneSided', 1782858000000)
+ON CONFLICT DO NOTHING;
+INSERT INTO event (id, name, tableAmount, tableSeatAmount, seatingType, beginDate)
+VALUES (11, 'Und ein zehntes', 1, 1, 'oneSided', 1782858000000)
+ON CONFLICT DO NOTHING;
+INSERT INTO event (id, name, tableAmount, tableSeatAmount, seatingType, beginDate)
+VALUES (12, 'Und ein elftes', 1, 1, 'oneSided', 1782858000000)
+ON CONFLICT DO NOTHING;
+INSERT INTO event (id, name, tableAmount, tableSeatAmount, seatingType, beginDate)
+VALUES (13, 'Und ein zwölftes', 1, 1, 'oneSided', 1782858000000)
+ON CONFLICT DO NOTHING;
+INSERT INTO event (id, name, tableAmount, tableSeatAmount, seatingType, beginDate)
+VALUES (14, 'Und ein dreizehntes', 1, 1, 'oneSided', 1782858000000)
+ON CONFLICT DO NOTHING;
+
 INSERT INTO guest (id, eventId, firstName, lastName, isChild, invitationStatus)
-VALUES (1, 1, 'Moritz', 'Hein', 0, 'confirmed') ON CONFLICT DO NOTHING;
+VALUES (1, 1, 'Moritz', 'Hein', 0, 'confirmed')
+ON CONFLICT DO NOTHING;
 INSERT INTO guest (id, eventId, firstName, lastName, isChild, invitationStatus)
-VALUES (2, 1, 'C.', 'B.', 0, 'invited') ON CONFLICT DO NOTHING;
+VALUES (2, 1, 'C.', 'B.', 0, 'invited')
+ON CONFLICT DO NOTHING;
 INSERT INTO guest (id, eventId, firstName, lastName, isChild, invitationStatus)
-VALUES (3, 1, 'Peter', 'Tester', 0, 'declined') ON CONFLICT DO NOTHING;
+VALUES (3, 1, 'Peter', 'Tester', 0, 'declined')
+ON CONFLICT DO NOTHING;
 INSERT INTO guest (id, eventId, firstName, lastName, isChild, invitationStatus)
-VALUES (4, 1, 'Christina', 'Tester', 0, 'confirmed') ON CONFLICT DO NOTHING;
+VALUES (4, 1, 'Christina', 'Tester', 0, 'confirmed')
+ON CONFLICT DO NOTHING;
 INSERT INTO guest (id, eventId, firstName, lastName, isChild, invitationStatus)
-VALUES (5, 1, 'Alex', 'Tester', 1, 'confirmed') ON CONFLICT DO NOTHING;
+VALUES (5, 1, 'Alex', 'Tester', 1, 'confirmed')
+ON CONFLICT DO NOTHING;
 INSERT INTO guest (id, eventId, firstName, lastName, isChild, invitationStatus)
-VALUES (6, 1, 'Maria', 'Tester', 0, 'unknown') ON CONFLICT DO NOTHING;
+VALUES (6, 1, 'Maria', 'Tester', 0, 'unknown')
+ON CONFLICT DO NOTHING;
 INSERT INTO guest (id, eventId, firstName, lastName, isChild, invitationStatus)
-VALUES (7, 1, 'Tina', 'Bagel', 0, 'confirmed') ON CONFLICT DO NOTHING;
+VALUES (7, 1, 'Tina', 'Bagel', 0, 'confirmed')
+ON CONFLICT DO NOTHING;
 INSERT INTO guest (id, eventId, firstName, lastName, isChild, invitationStatus)
-VALUES (8, 1, 'Jonas', 'Tiger', 0, 'unknown') ON CONFLICT DO NOTHING;
+VALUES (8, 1, 'Jonas', 'Tiger', 0, 'unknown')
+ON CONFLICT DO NOTHING;
 
 INSERT INTO seat (eventId, seatNo, tableNo)
 VALUES (1, 1, 1)
@@ -134,6 +182,24 @@ VALUES (1, 16, 4)
 ON CONFLICT DO NOTHING;
 
 INSERT INTO seat_assignment (eventId, seatNo, guestId)
-VALUES (1, 1, 1) ON CONFLICT DO NOTHING;
+VALUES (1, 1, 1)
+ON CONFLICT DO NOTHING;
 INSERT INTO seat_assignment (eventId, seatNo, guestId)
-VALUES (1, 2, 2) ON CONFLICT DO NOTHING;
+VALUES (1, 2, 2)
+ON CONFLICT DO NOTHING;
+
+INSERT INTO seat (eventId, seatNo, tableNo)
+VALUES (2, 1, 1),
+       (3, 1, 1),
+       (4, 1, 1),
+       (5, 1, 1),
+       (6, 1, 1),
+       (7, 1, 1),
+       (8, 1, 1),
+       (9, 1, 1),
+       (10, 1, 1),
+       (11, 1, 1),
+       (12, 1, 1),
+       (13, 1, 1),
+       (14, 1, 1)
+ON CONFLICT DO NOTHING;

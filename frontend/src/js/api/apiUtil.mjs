@@ -1,6 +1,6 @@
 import { API_BASE_URL } from '../config.mjs';
 import { convertToDateTime } from '../util/util.mjs';
-import { NetworkRequestError } from '../util/NetworkRequestError.js';
+import { NetworkRequestError } from '../util/NetworkRequestError.mjs';
 
 /**
  *

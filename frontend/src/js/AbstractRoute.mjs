@@ -12,9 +12,10 @@ export class AbstractRoute {
    * Load data asynchronously before displaying the page
    *
    * @param {any} params
+   * @param {URLSearchParams} query
    * @returns {Promise<unknown>}
    */
-  async loadData (params) {
+  async loadData ({ params, query }) {
     return undefined;
   }
 
@@ -23,9 +24,11 @@ export class AbstractRoute {
    *
    * @param {HTMLDivElement} pageContainer
    * @param {unknown} data
+   * @param {any} params
+   * @param {URLSearchParams} query
    * @returns {void}
    */
-  onMount (pageContainer, data) {
+  onMount (pageContainer, data, { params, query }) {
 
   }
 
@@ -40,9 +43,11 @@ export class AbstractRoute {
 
   /**
    * @param {unknown} data
+   * @param {any} params
+   * @param {URLSearchParams} query
    * @returns {string} the html page title
    */
-  getTitle (data) {
+  getTitle (data, { params, query }) {
     return '';
   }
 }

@@ -1,10 +1,12 @@
 import { del, get, post } from './apiUtil.mjs';
 
 /**
- * @return {Promise<import('backend/src/types/Event').Event[]>}
+ * @return {Promise<import('backend/src/types/PaginatedResponse').PaginatedResponse<import('backend/src/types/Event').Event>>}
  */
-function listEvents () {
-  return get('/event');
+function listEvents ({ start = 0, amount = 10 }) {
+  return get(`/event?${new URLSearchParams({
+    start, amount
+  })}`);
 }
 
 /**

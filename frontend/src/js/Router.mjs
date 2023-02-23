@@ -113,6 +113,7 @@ export class Router {
       const regexMatches = matchingRoute.pathRegex.exec(currentPath);
       const params = {};
       matchingRoute.pageParameterNames.forEach((paramName, i) => params[paramName] = regexMatches[i + 1]);
+      const queryParams = new URLSearchParams(location.search);
 
       this.activeRoute = matchingRoute.routeInstance;
 
@@ -121,19 +122,40 @@ export class Router {
 
         if (this.activeRoute.loadData) {
           //this.pageContainer.innerHTML = loadingSpinnerHtml;
-          pageData = await this.activeRoute.loadData(params);
+          try {
+            pageData = await this.activeRoute.loadData({ params, query: queryParams });
+          } catch (err) {
+            // If a redirect signal is thrown
+            if (err.redirectUrl) {
+              console.log("redirecting to", err.redirectUrl);
+              return this.navigateTo(err.redirectUrl, true);
+            } else {
+              throw err;
+            }
+          }
         }
 
-        let pageTitle = this.activeRoute.getTitle(pageData);
+        let pageTitle = this.activeRoute.getTitle(pageData, { params, query: queryParams });
 
         pageTitle += (pageTitle.length ? ' | ' : '') + 'EventPlanner24';
 
         this.pageContainer.innerHTML = typeof matchingRoute.html === 'function' ? matchingRoute.html({
           data: pageData,
-          params
+          params,
+          query: queryParams
         }) : matchingRoute.html;
         document.title = pageTitle;
-        this.activeRoute.onMount(this.pageContainer, pageData);
+
+        try {
+          this.activeRoute.onMount(this.pageContainer, pageData, { params, query: queryParams });
+        } catch (err) {
+          // If a redirect signal is thrown
+          if (err.redirectUrl) {
+            return this.navigateTo(err.redirectUrl, true);
+          } else {
+            throw err;
+          }
+        }
 
         console.info('Mounted route');
       } else {

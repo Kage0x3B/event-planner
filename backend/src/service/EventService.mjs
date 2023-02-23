@@ -8,17 +8,33 @@ export class EventService {
   }
 
   /**
-   * Get a single event
+   * List all events
    *
+   * @param {number} start
+   * @param {number} amount
    * @return {import('../types/Event').Event[]}
    */
-  listEvents () {
+  listEvents ({ start = 0, amount = 10 }) {
     /**
      * @type {import('../types/Event').Event[]}
      */
-    const rawEvents = DatabaseManager.getDatabase().prepare('SELECT * FROM event').all();
+    const rawEvents = DatabaseManager.getDatabase().prepare('SELECT * FROM event LIMIT ? OFFSET ?').all(amount, start);
 
     return fixSqlDatesArray(rawEvents, 'beginDate', 'createdAt');
+  }
+
+  /**
+   * Get the amount of events
+   *
+   * @return {number}
+   */
+  countEvents () {
+    /**
+     * @type {{count: number}}
+     */
+    const data = DatabaseManager.getDatabase().prepare('SELECT COUNT(*) AS count FROM event').get();
+
+    return data.count;
   }
 
   /**

@@ -15,8 +15,8 @@ export default class EventSeatingPlanRoute extends AbstractRoute {
    * @param {{ eventId: number }} params
    * @returns {Promise<PageData>}
    */
-  async loadData ({ eventId }) {
-    const [event, guestList, seatingPlan] = await Promise.all([eventApi.getEvent(eventId), guestApi.listGuests(eventId), seatingPlanApi.getSeatingPlan(eventId)]);
+  async loadData ({ params }) {
+    const [event, guestList, seatingPlan] = await Promise.all([eventApi.getEvent(params.eventId), guestApi.listGuests(params.eventId), seatingPlanApi.getSeatingPlan(params.eventId)]);
 
     return {
       event,
@@ -30,7 +30,7 @@ export default class EventSeatingPlanRoute extends AbstractRoute {
    * @param {PageData} data
    * @returns {void}
    */
-  async onMount (pageContainer, data) {
+  async onMount (pageContainer, data, {}) {
     for (const seatDragTarget of pageContainer.getElementsByClassName('seat-drag-target')) {
       seatDragTarget.addEventListener('dragenter', this.onGuestDragEnter);
       seatDragTarget.addEventListener('dragover', this.onGuestDragOver);
@@ -122,7 +122,7 @@ export default class EventSeatingPlanRoute extends AbstractRoute {
    * @param {PageData} data
    * @return {string}
    */
-  getTitle (data) {
+  getTitle (data, {}) {
     return 'Sitzplan | ' + data.event.name;
   }
 }
