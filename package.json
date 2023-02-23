@@ -2,6 +2,14 @@
     "name": "event-planner",
     "version": "1.0.0",
     "description": "An event planner webapp for a university web development course",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Kage0x3B/event-planner.git"
+    },
+    "homepage": "https://github.com/Kage0x3B/event-planner#readme",
+    "bugs": {
+        "url": "https://github.com/Kage0x3B/event-planner/issues"
+    },
     "scripts": {
         "clean": "npm run -w frontend clean",
         "lint": "npm run --workspaces lint",
@@ -21,6 +29,9 @@
         "frontend",
         "backend"
     ],
-    "devDependencies": {
-    }
+    "packageManager": "npm@9.5.1",
+    "engines": {
+        "node": ">=16"
+    },
+    "engineStrict": true
 }

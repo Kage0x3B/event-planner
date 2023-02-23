@@ -9,7 +9,7 @@
         "build": "npm run debug && npm run minify",
         "debug": "mkdir -p build && npm run build:html && npm run build:css && npm run build:js && cp -r src/public/* build",
         "build:html": "cp src/app.html build/index.html",
-        "build:css": "postcss src/css/tailwind.pcss -o build/tailwind.generated.css && lessc src/css/main.less build/bundle.css",
+        "build:css": "postcss src/css/tailwind.pcss -o build/tailwind.generated.css && lessc src/css/main.less build/bundle.css && rm build/tailwind.generated.css",
         "build:js": "npm run generateRouteMetadata && esbuild src/js/app.mjs --log-level=warning --bundle --outfile=build/bundle.js",
         "minify": "npm run minify:css && npm run minify:js",
         "minify:css": "cleancss -o build/bundle.css build/bundle.css",
