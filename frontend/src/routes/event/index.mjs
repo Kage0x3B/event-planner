@@ -44,7 +44,7 @@ export default class EventListRoute extends AbstractRoute {
    * @param data {PageData}
    * @returns {void}
    */
-  async onMount (pageContainer, data, {}) {
+  async onMount (pageContainer, data) {
     window.addEventListener('resize', this.onResize);
 
     for (const button of pageContainer.getElementsByClassName('delete-event-button')) {
@@ -80,7 +80,7 @@ export default class EventListRoute extends AbstractRoute {
     return maxListItemAmount;
   }
 
-  getTitle (data, {}) {
+  getTitle (data) {
     return 'Alle Veranstaltungen';
   }
 

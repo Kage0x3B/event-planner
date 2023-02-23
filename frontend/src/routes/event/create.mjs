@@ -12,7 +12,7 @@ export default class CreateEventRoute extends AbstractRoute {
    * @param {undefined} data
    * @returns {void}
    */
-  async onMount (pageContainer, data, {}) {
+  async onMount (pageContainer, data) {
     this.createEventForm = document.getElementById('createEventForm');
     this.createEventForm.addEventListener('submit', this.onSubmit);
   }
@@ -34,7 +34,7 @@ export default class CreateEventRoute extends AbstractRoute {
     }
   }
 
-  getTitle (data, {}) {
+  getTitle (data) {
     return 'Veranstaltung erstellen';
   }
 }

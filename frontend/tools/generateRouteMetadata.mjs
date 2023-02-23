@@ -143,7 +143,7 @@ async function generateRoutingMetadata () {
   console.info(`Found ${routeFiles.length} routes`);
 
   const routeEntryStrings = (await Promise.all(routeFiles.map(loadRouteMetadata))).map(stringifyRouteMetadata);
-  const generatedRouteMetadata = `import { DateTime } from 'luxon';\n/** @return {Promise<(import('../../types/Route').RouteMetadata)[]>} */\nexport async function loadRouteMetadata() {\nreturn [\n${routeEntryStrings.join(',\n')}];\n}`;
+  const generatedRouteMetadata = `/* eslint-disable */\nimport { DateTime } from 'luxon';\n/** @return {Promise<(import('../../types/Route').RouteMetadata)[]>} */\nexport async function loadRouteMetadata() {\nreturn [\n${routeEntryStrings.join(',\n')}];\n}`;
 
   const generatedJsFolder = fs.existsSync(GENERATED_FILES_FOLDER);
 

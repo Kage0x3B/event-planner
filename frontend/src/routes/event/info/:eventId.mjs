@@ -21,14 +21,14 @@ export default class EventInfoRoute extends AbstractRoute {
    * @param {PageData} data
    * @returns {void}
    */
-  async onMount (pageContainer, data, {}) {
+  async onMount (pageContainer, data) {
   }
 
   /**
    * @param {PageData} data
    * @return {string}
    */
-  getTitle (data, {}) {
+  getTitle (data) {
     return data.name;
   }
 }

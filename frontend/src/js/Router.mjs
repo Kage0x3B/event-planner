@@ -3,29 +3,16 @@
 
 import { loadRouteMetadata } from '../generated/routeMetadata.generated.mjs';
 
-const loadingSpinnerHtml = `
-<div class='flex justify-center'>
-  <div class='loading-ripple'>
-    <div></div>
-    <div></div>
-  </div>
-</div>`;
-
 export class Router {
-  /**
-   * @private
-   */
-  static #routerInstance;
-
   /**
    * @return {Router}
    */
   static getInstance () {
-    if (!Router.#routerInstance) {
-      Router.#routerInstance = new Router();
+    if (!Router.routerInstance) {
+      Router.routerInstance = new Router();
     }
 
-    return Router.#routerInstance;
+    return Router.routerInstance;
   }
 
   constructor () {
@@ -112,7 +99,9 @@ export class Router {
 
       const regexMatches = matchingRoute.pathRegex.exec(currentPath);
       const params = {};
-      matchingRoute.pageParameterNames.forEach((paramName, i) => params[paramName] = regexMatches[i + 1]);
+      matchingRoute.pageParameterNames.forEach((paramName, i) => {
+        params[paramName] = regexMatches[i + 1];
+      });
       const queryParams = new URLSearchParams(location.search);
 
       this.activeRoute = matchingRoute.routeInstance;
@@ -121,7 +110,6 @@ export class Router {
         let pageData;
 
         if (this.activeRoute.loadData) {
-          //this.pageContainer.innerHTML = loadingSpinnerHtml;
           try {
             pageData = await this.activeRoute.loadData({ params, query: queryParams });
           } catch (err) {
@@ -138,11 +126,16 @@ export class Router {
 
         pageTitle += (pageTitle.length ? ' | ' : '') + 'EventPlanner24';
 
-        this.pageContainer.innerHTML = typeof matchingRoute.html === 'function' ? matchingRoute.html({
-          data: pageData,
-          params,
-          query: queryParams
-        }) : matchingRoute.html;
+        if (typeof matchingRoute.html === 'function') {
+          this.pageContainer.innerHTML = matchingRoute.html({
+            data: pageData,
+            params,
+            query: queryParams
+          });
+        } else {
+          this.pageContainer.innerHTML = matchingRoute.html;
+        }
+
         document.title = pageTitle;
 
         try {
@@ -158,10 +151,14 @@ export class Router {
 
         console.info('Mounted route');
       } else {
-        this.pageContainer.innerHTML = typeof matchingRoute.html === 'function' ? matchingRoute.html({
-          data: {},
-          params
-        }) : matchingRoute.html;
+        if (typeof matchingRoute.html === 'function') {
+          this.pageContainer.innerHTML = matchingRoute.html({
+            data: {},
+            params
+          });
+        } else {
+          this.pageContainer.innerHTML = matchingRoute.html;
+        }
       }
     } else {
       console.error('404 for path', currentPath);

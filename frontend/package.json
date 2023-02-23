@@ -4,7 +4,7 @@
     "description": "",
     "scripts": {
         "clean": "rm -rf ./node_modules && rm -rf ./build && rm -rf ./src/generated",
-        "lint": "semistandard --verbose src/js/**/*.mjs | snazzy && lesshint --reporter lesshint-reporter-stylish src/css",
+        "lint": "semistandard --verbose src/**/*.mjs | snazzy && lesshint --reporter lesshint-reporter-stylish src/css",
         "format": "semistandard --verbose --fix src/js/**/*.mjs | snazzy",
         "build": "npm run debug && npm run minify",
         "debug": "mkdir -p build && npm run build:html && npm run build:css && npm run build:js && cp -r src/public/* build",

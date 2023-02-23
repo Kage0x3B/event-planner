@@ -28,7 +28,7 @@ export default class EventGuestListRoute extends AbstractRoute {
    * @param {PageData} data
    * @returns {void}
    */
-  async onMount (pageContainer, data, {}) {
+  async onMount (pageContainer, data) {
     this.addGuestForm = document.getElementById('addGuestForm');
     this.addGuestForm.addEventListener('submit', (e) => this.onSubmit(e, data));
 
@@ -121,7 +121,7 @@ export default class EventGuestListRoute extends AbstractRoute {
    * @param {PageData} data
    * @return {string}
    */
-  getTitle (data, {}) {
+  getTitle (data) {
     return 'Gästeliste | ' + data.event.name;
   }
 }
