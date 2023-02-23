@@ -127,7 +127,6 @@ export class Router {
           } catch (err) {
             // If a redirect signal is thrown
             if (err.redirectUrl) {
-              console.log("redirecting to", err.redirectUrl);
               return this.navigateTo(err.redirectUrl, true);
             } else {
               throw err;

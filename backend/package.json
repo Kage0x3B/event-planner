@@ -4,6 +4,7 @@
     "description": "",
     "main": "src/main.mjs",
     "scripts": {
+        "clean": "rm -rf ./node_modules",
         "debug": "nodemon",
         "start": "node src/main.mjs",
         "lint": "semistandard --verbose src/**/*.mjs | snazzy",

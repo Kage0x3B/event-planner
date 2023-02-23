@@ -34,18 +34,20 @@
                 </label>
                 <ul tabindex='0'
                     class='menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52'>
+                    <li><a href='/event/create'>Veranstaltung erstellen</a></li>
                     <li><a href='/event'>Alle Veranstaltungen</a></li>
                 </ul>
             </div>
-            <a class='btn btn-ghost normal-case text-xl' href='/'>EventPlanner24</a>
+            <a class='btn btn-ghost normal-case text-xl' href='/'>
+                <img src='/assets/img/favicon-256.png' class='h-full w-auto hidden lg:block mr-4' alt='EP Logo' />
+                EventPlanner24
+            </a>
         </div>
-        <div class='navbar-center hidden lg:flex'>
+        <div class='navbar-end hidden lg:flex'>
             <ul class='menu menu-horizontal px-1'>
-                <li><a href='/event'>Alle Veranstaltungen</a></li>
+                <li><a href='/event' class='mr-2'>Alle Veranstaltungen</a></li>
+                <li><a class='btn btn-primary' href='/event/create'>Veranstaltung erstellen</a></li>
             </ul>
-        </div>
-        <div class='navbar-end'>
-            <a class='btn btn-primary' href='/event/create'>Veranstaltung erstellen</a>
         </div>
     </div>
     <div id='page' class='w-full min-page-height bg-base-200/50 mt-[64px]'>

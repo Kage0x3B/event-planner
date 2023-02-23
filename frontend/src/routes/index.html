@@ -1,5 +1,5 @@
 <div id='main-page' class='hero min-page-height'>
-    <div class='hero-content bg-black/40 rounded text-center text-white'>
+    <div class='hero-content bg-black/40 rounded-box text-center text-white px-4 mx-2 xl:mx-0'>
         <div class='max-w-lg'>
             <h1 class='text-5xl font-bold drop-shadow-xl mb-8'>Willkommen bei EventPlanner24</h1>
             <p class='mb-4 text-lg drop-shadow-lg'>
@@ -11,7 +11,10 @@
                 Gästeliste in wenigen
                 Minuten und können sich auf die wirklich wichtigen Sachen konzentrieren!
             </p>
-            <a href='/event/create' class='btn btn-primary'>Jetzt ausprobieren!</a>
+            <div class='flex flex-col items-center'>
+                <a href='/event/create' class='btn btn-primary mb-2'>Jetzt ausprobieren!</a>
+                <a href='/event' class='btn btn-ghost btn-sm'><span class='drop-shadow-lg'>Alle Veranstaltungen anschauen</span></a>
+            </div>
         </div>
     </div>
 </div>

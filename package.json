@@ -11,7 +11,7 @@
         "url": "https://github.com/Kage0x3B/event-planner/issues"
     },
     "scripts": {
-        "clean": "npm run -w frontend clean",
+        "clean": "npm run --workspaces clean && rm -rf ./node_modules",
         "lint": "npm run --workspaces lint",
         "format": "npm run --workspaces format",
         "debug": "npm run -w frontend debug && npm run -w backend debug",

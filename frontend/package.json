@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "clean": "rm -r ./build && rm -r ./src/generated",
+        "clean": "rm -rf ./node_modules && rm -rf ./build && rm -rf ./src/generated",
         "lint": "semistandard --verbose src/js/**/*.mjs | snazzy && lesshint --reporter lesshint-reporter-stylish src/css",
         "format": "semistandard --verbose --fix src/js/**/*.mjs | snazzy",
         "build": "npm run debug && npm run minify",
