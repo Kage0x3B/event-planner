@@ -7,9 +7,14 @@
   min-height: calc(100vh - 64px);
 }
 
+// While this rule isn't entirely broken, I don't see a reason for not using id-selectors
+// in this case. The style should apply directly to this exact element as the background
+// and classes shouldn't have any performance benefits over ids, even if they are usually
+// comparatively efficiently implemented using a bloom filter.
+// lesshint-disable idSelector
 #main-page {
-  background: url("/assets/img/hero.jpg");
-  background-repeat: no-repeat;
+  background: url('/assets/img/hero.jpg');
   background-position: center;
+  background-repeat: no-repeat;
   background-size: cover;
 }

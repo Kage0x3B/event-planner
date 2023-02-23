@@ -1,23 +1,24 @@
+// lesshint-disable spaceAroundComma, importantRule
 @font-face {
   font-display: block;
-  font-family: "bootstrap-icons";
-  src: url("/assets/font/bootstrap-icons.woff2?24e3eb84d0bcaf83d77f904c78ac1f47") format("woff2"),
-  url("/assets/font/bootstrap-icons.woff?24e3eb84d0bcaf83d77f904c78ac1f47") format("woff");
+  font-family: 'bootstrap-icons';
+  src: url('/assets/font/bootstrap-icons.woff2?24e3eb84d0bcaf83d77f904c78ac1f47') format('woff2'),
+  url('/assets/font/bootstrap-icons.woff?24e3eb84d0bcaf83d77f904c78ac1f47') format('woff');
 }
 
 .bi::before,
-[class^="bi-"]::before,
-[class*=" bi-"]::before {
+[class^='bi-']::before,
+[class*=' bi-']::before {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   display: inline-block;
   font-family: bootstrap-icons !important;
   font-style: normal;
-  font-weight: normal !important;
   font-variant: normal;
-  text-transform: none;
+  font-weight: normal !important;
   line-height: 1;
-  vertical-align: -.125em;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  text-transform: none;
+  vertical-align: -0.125em;
 }
 
 /*
@@ -324,13 +325,19 @@
 .bi-caret-down-square::before { content: "\f22b"; }
 .bi-caret-down::before { content: "\f22c"; }
 */
-.bi-caret-left-fill::before { content: "\f22d"; }
+.bi-caret-left-fill::before {
+  content: '\f22d';
+}
+
 /*
 .bi-caret-left-square-fill::before { content: "\f22e"; }
 .bi-caret-left-square::before { content: "\f22f"; }
 .bi-caret-left::before { content: "\f230"; }
 */
-.bi-caret-right-fill::before { content: "\f231"; }
+.bi-caret-right-fill::before {
+  content: '\f231';
+}
+
 /*
 .bi-caret-right-square-fill::before { content: "\f232"; }
 .bi-caret-right-square::before { content: "\f233"; }
@@ -1016,7 +1023,7 @@
 .bi-person-lines-fill::before { content: "\f4db"; }
 */
 .bi-person-plus-fill::before {
-  content: "\f4dc";
+  content: '\f4dc';
 }
 
 /*.bi-person-plus::before { content: "\f4dd"; }
@@ -1277,7 +1284,7 @@
 .bi-tornado::before { content: "\f5dc"; }
 */
 .bi-trash-fill::before {
-  content: "\f5dd";
+  content: '\f5dd';
 }
 
 /*

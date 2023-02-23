@@ -1,5 +1,4 @@
 import { del, get, post } from './apiUtil.mjs';
-import { number } from 'yup';
 
 /**
  * @param {number} eventId

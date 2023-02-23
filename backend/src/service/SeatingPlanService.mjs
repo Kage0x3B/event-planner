@@ -74,17 +74,23 @@ export class SeatingPlanService {
     const seatingPlanArray = [];
 
     for (const entry of rawSeatingPlan) {
-      seatingPlanArray[entry.seatNo] = {
-        eventId: entry.eventId,
-        seatNo: entry.seatNo,
-        tableNo: entry.tableNo,
-        guest: (entry.guestId) ? {
+      let guest = null;
+
+      if (entry.guestId) {
+        guest = {
           id: entry.guestId,
           firstName: entry.firstName,
           lastName: entry.lastName,
           isChild: Boolean(entry.isChild),
           invitationStatus: entry.invitationStatus
-        } : null
+        };
+      }
+
+      seatingPlanArray[entry.seatNo] = {
+        eventId: entry.eventId,
+        seatNo: entry.seatNo,
+        tableNo: entry.tableNo,
+        guest
       };
     }
 

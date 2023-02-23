@@ -1,5 +1,4 @@
 import { del, get, post } from './apiUtil.mjs';
-import { number } from 'yup';
 
 /**
  * @param {number} eventId
@@ -14,7 +13,7 @@ function getSeatingPlan (eventId) {
  * @return {Promise<void>}
  */
 function assignSeat (data) {
-  return post(`/seatingPlan`, data);
+  return post('/seatingPlan', data);
 }
 
 /**
